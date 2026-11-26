@@ -5,3 +5,11 @@ build/
 dist/
 wheels/
 *.egg-info
+
+# Virtual environment
+.venv/
+
+# Upstream checkouts fetched by make sources
+/RobotoMono/
+/Ligaturizer/
+/*.tmp/

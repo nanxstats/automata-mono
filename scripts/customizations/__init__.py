@@ -1,0 +1,19 @@
+"""Glyph customizations applied to Roboto Mono, in order.
+
+To add one, write a Customization subclass in a new module (see base.py for
+the contract the build enforces) and append an instance to CUSTOMIZATIONS.
+These modules run inside FontForge's Python.
+"""
+
+from .base import Customization, CustomizationError, Style, apply_customizations
+from .comma import StraightComma
+from .tittle import RaisedTittles
+from .y_tail import StraightTailY
+
+CUSTOMIZATIONS = (
+    StraightComma(),
+    RaisedTittles(),
+    StraightTailY(),
+)
+
+__all__ = ["CUSTOMIZATIONS", "Customization", "CustomizationError", "Style", "apply_customizations"]
