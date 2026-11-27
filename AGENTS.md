@@ -14,6 +14,8 @@
 - `make` builds and validates; `make check` must pass after any change to
   the build. `make proof` renders before/after sheets to `build/proof/`;
   look at them after changing glyph designs.
+- After any Python change, run `uv run --locked ruff format` and
+  `uv run --locked ruff check`; both must be clean.
 - `scripts/build_font.py` runs in FontForge's Python (`fontforge -script`):
   standard library, `fontforge`, `psMat`, and Ligaturizer only.
   `scripts/finalize.py`, `validate.py`, and `proof.py` run with `uv run`.
