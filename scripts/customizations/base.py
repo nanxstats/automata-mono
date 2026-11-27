@@ -108,8 +108,11 @@ def _apply(font, style, customization):
 
     before = snapshot(font)
     for glyph_name in preserves:
-        for ref_name in {ref[0] for ref in font[glyph_name].references} & redraws:
-            font[glyph_name].unlinkRef(ref_name)
+        glyph = font[glyph_name]
+        for ref_name, *_ in glyph.references:
+            if ref_name in redraws:
+                # Each call unlinks one reference, so … takes three.
+                glyph.unlinkRef(ref_name)
     customization.redraw(font, style)
     after = snapshot(font)
 

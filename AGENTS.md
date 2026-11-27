@@ -39,10 +39,11 @@
 - Derive geometry from the upstream outlines and per-style metrics (`Style`)
   so one rule covers every weight and italic. Assert the structure you rely
   on, and preserve contour direction.
-- Current customizations: straight comma (Cyrillic tailed letters keep the
-  upstream comma), i/j dots 15% larger at a 0.11 em gap and 0.009 em left
-  of the stem center, straight-tail y, t stem at 0.86 of the way from
-  x-height to cap height, bracket arms 0.30 of the cell past the stem,
+- Current customizations: straight comma, its head 15% wider and raised
+  with the period's top, its foot 0.74 of the head (Cyrillic tailed letters
+  keep the upstream comma), i/j dots 15% larger at a 0.11 em gap and 0.009
+  em left of the stem center, straight-tail y, t stem at 0.86 of the way
+  from x-height to cap height, bracket arms 0.30 of the cell past the stem,
   a straight a stem cut flat at the baseline (ą follows), a % slash from
   the baseline to the cap height across the rings, cut flat, an r with
   i's flag and foot, its stem 0.10 of the cell left of i's, and its arm
@@ -52,14 +53,17 @@
   cap height over x-height (Ğ Ĝ Ģ Ġ and small caps follow), a Q tail at 50
   degrees, cut flat at upstream's depth and thickness with its right corner
   under the bowl's right edge (the small cap follows), a 0 with a dot in
-  place of the slash: the period at 0.85 of its width, at most 0.6 of the
-  counter's, a 1 with l's foot under the upstream flag, 6 and 9 with
+  place of the slash: upstream's period at 0.85 of its width, at most 0.6
+  of the counter's, a 1 with l's foot under the upstream flag, 6 and 9 with
   straight strokes at 60 degrees, tangent to the counter and as thick as
   7's leg, cut flat at the figure height and on the baseline, the bowl's
-  side rebuilt into the stroke and the counter's corner rounded off, and
+  side rebuilt into the stroke and the counter's corner rounded off,
   hooks of f, g, j, and t that run flat along l's top, p's bottom, or the
   baseline into an upright cut at upstream's reach, moved along the stem
-  by their overshoot (ŧ, ĳ, and dotless j follow).
+  by their overshoot (ŧ, ĳ, and dotless j follow), a period 15% larger,
+  grown from the baseline (: and ; follow with their upper dots' tops
+  kept; … and ‥ keep upstream's), and dots of ! ? ¡ ¿ 0.9 as wide as the
+  period, their strokes cut back to keep upstream's gap (‼ follows).
 
 ## Ligatures
 

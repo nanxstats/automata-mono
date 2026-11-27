@@ -84,6 +84,25 @@ def implied(points):
     return flags
 
 
+def mapped(points, function):
+    """fontforge points moved by `function`, (x, y) to (x, y), and rounded.
+
+    Points that TrueType leaves implied, midway between two handles, stay
+    midway between the rounded handles.
+    """
+    result = [
+        fontforge.point(*(round(value) for value in function(p.x, p.y)), p.on_curve)
+        for p in points
+    ]
+    for index, flag in enumerate(implied(points)):
+        if flag:
+            before, after = result[index - 1], result[(index + 1) % len(result)]
+            result[index] = fontforge.point(
+                (before.x + after.x) / 2, (before.y + after.y) / 2, True
+            )
+    return result
+
+
 def single_contour(glyph):
     if glyph.references or len(glyph.foreground) != 1:
         raise ValueError(

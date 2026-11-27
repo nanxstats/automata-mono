@@ -15,6 +15,7 @@ from .g_spur import SpurG
 from .one_foot import FootedOne
 from .open_six_nine import OpenSixNine
 from .percent import FullPercentSlash
+from .punctuation_dots import LargerDots
 from .q_tail import FlatTailQ
 from .r_serifs import SlabR
 from .t_top import TallerT
@@ -35,6 +36,8 @@ CUSTOMIZATIONS = (
     SpurG(),
     FlatTailQ(),
     DottedZero(),
+    # After DottedZero, whose dot is upstream's period, scaled down.
+    LargerDots(),
     FootedOne(),
     OpenSixNine(),
     FlatHooks(),
