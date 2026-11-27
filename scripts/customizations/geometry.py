@@ -1,5 +1,6 @@
 """Plane geometry on (x, y) tuples, independent of FontForge."""
 
+import math
 from dataclasses import dataclass
 
 
@@ -23,6 +24,12 @@ class Line:
     def offset(self, point):
         """Horizontal distance from the line to a point, positive to the right."""
         return point[0] - self.x_at(point[1])
+
+    def distance(self, point):
+        """Perpendicular distance from the line to a point."""
+        (x1, y1), (x2, y2) = self.a, self.b
+        cross = (x2 - x1) * (point[1] - y1) - (y2 - y1) * (point[0] - x1)
+        return abs(cross) / math.dist(self.a, self.b)
 
     def crossing(self, p0, p1, p2):
         """Parameter t where the quadratic curve p0, p1, p2 crosses the line.
@@ -62,3 +69,49 @@ def quadratic(p0, p1, p2, t):
 
 def rounded(point):
     return round(point[0]), round(point[1])
+
+
+def ahead(a, b, c):
+    """Whether c lies ahead of b on the way from a to b."""
+    return (b[0] - a[0]) * (c[0] - b[0]) + (b[1] - a[1]) * (c[1] - b[1]) > 0
+
+
+def segments(points):
+    """Split a closed quadratic outline into (start, control, end) indices.
+
+    `points` are (x, y, on_curve) tuples with at most one off-curve point
+    between on-curve ones, as FontForge reads TrueType outlines. `control`
+    is None for straight segments. The first segment starts at the first
+    on-curve point.
+    """
+    count = len(points)
+    first = next(i for i, point in enumerate(points) if point[2])
+    result = []
+    start = first
+    while True:
+        end, control = (start + 1) % count, None
+        if not points[end][2]:
+            control, end = end, (end + 1) % count
+            if not points[end][2]:
+                raise ValueError("Expected an on-curve point between handles")
+        result.append((start, control, end))
+        start = end
+        if start == first:
+            return result
+
+
+def bounds(points):
+    """Exact bounding box of a closed quadratic outline (see `segments`)."""
+    extremes = []
+    for start, control, end in segments(points):
+        p0, p2 = points[start][:2], points[end][:2]
+        extremes.append(p0)
+        if control is not None:
+            p1 = points[control][:2]
+            for axis in (0, 1):
+                denominator = p0[axis] - 2 * p1[axis] + p2[axis]
+                if denominator and 0 < (p0[axis] - p1[axis]) / denominator < 1:
+                    t = (p0[axis] - p1[axis]) / denominator
+                    extremes.append(quadratic(p0, p1, p2, t))
+    xs, ys = [p[0] for p in extremes], [p[1] for p in extremes]
+    return min(xs), min(ys), max(xs), max(ys)
