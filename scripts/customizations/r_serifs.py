@@ -41,14 +41,18 @@ class SlabR(Customization):
     # The foot reaches 1.32, 1.23, and 1.22 times as far right of the stem as
     # left of it, under the arm.
     FOOT = 1.25
-    # Moving the stem 0.09 to 0.10 of the cell right narrows the shoulder to
-    # 0.79 to 0.81 of its width, since the arm's end stays put. Much narrower
-    # would cramp the shoulder.
-    MIN_SHOULDER = 0.75
+    # Upstream, r's arm stops 0.047 of the cell short of f's hook. In
+    # JetBrains Mono, the two end together; in IBM Plex Mono, DM Mono, and
+    # Geist Mono, r's arm reaches 0.01 to 0.07 of the cell further. The arm
+    # now reaches as far as f's hook. With the stem moved right, that
+    # narrows the shoulder to 0.85 to 0.89 of its width. Much narrower would
+    # cramp it and shorten the arm.
+    MIN_SHOULDER = 0.8
 
     def redraw(self, font, style):
         serifs = self._serifs(font["i"], style)
-        shift = self._redraw_r(font["r"], style, serifs, font["space"].width)
+        hook = self._reach(font["f"], style)
+        shift = self._redraw_r(font["r"], style, serifs, hook, font["space"].width)
         for name in self.inherits:
             # The accents keep their place relative to the stem. Upstream's
             # sit where IBM Plex Mono, DM Mono, and Geist Mono put theirs.
@@ -61,6 +65,15 @@ class SlabR(Customization):
                     dx += shift
                 references.append((ref_name, (xx, xy, yx, yy, dx, dy)))
             glyph.references = tuple(references)
+
+    @staticmethod
+    def _reach(glyph, style):
+        """How far right a glyph reaches, in upright coordinates."""
+        if glyph.references:
+            raise ValueError("Expected %s to be drawn without references" % glyph.glyphname)
+        layer = glyph.foreground.dup()
+        layer.transform((1, 0, -style.slant, 1, 0, 0))
+        return layer.boundingBox()[2]
 
     @staticmethod
     def _serifs(glyph, style):
@@ -91,14 +104,14 @@ class SlabR(Customization):
             center=(left.x_at(middle) + right.x_at(middle)) / 2,
         )
 
-    def _redraw_r(self, glyph, style, serifs, cell):
-        """Move the stem right, give it i's serifs, and narrow the shoulder to fit.
+    def _redraw_r(self, glyph, style, serifs, hook, cell):
+        """Move the stem right, give it i's serifs, and fit the shoulder.
 
         Upstream, r is a bare stem with a shoulder that leaves it at its
         right edge and ends in a terminal near the right of the cell. The
-        stem and the points where the shoulder joins it move right; the
-        shoulder is narrowed toward the terminal, which stays put. Returns
-        the horizontal shift of the stem.
+        stem and the points where the shoulder joins it move right. The
+        shoulder is narrowed and moved so the terminal ends at `hook`.
+        Returns the horizontal shift of the stem.
         """
         original = single_contour(glyph)
         points = list(original)
@@ -138,15 +151,15 @@ class SlabR(Customization):
 
         shift = round(serifs.center - self.STEM * cell - (left.x_at(middle) + right.x_at(middle)) / 2)
         shoulder = [i for i in range(count) if i not in stem]
-        end = max(upright(i)[0] for i in shoulder)
+        end = self._reach(glyph, style)
         join = upright(inner)[0]
-        scale = (end - join - shift) / (end - join)
-        if shift <= 0 or scale < self.MIN_SHOULDER:
-            raise ValueError("Unexpected stem position on r")
+        scale = (hook - join - shift) / (end - join)
+        if shift <= 0 or hook < end or not self.MIN_SHOULDER <= scale < 1:
+            raise ValueError("Unexpected stem or arm position on r")
 
         def narrowed(index):
             x, y = upright(index)
-            return style.slanted(end - (end - x) * scale, y)
+            return style.slanted(hook - (end - x) * scale, y)
 
         moved = {}
         for index in shoulder:

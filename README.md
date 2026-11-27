@@ -18,7 +18,7 @@ glyphs. Everything else is Roboto Mono, unchanged.
 | `[` `]` | Arms extend 0.18 of the cell past the stem in Regular, shrinking to 0.14 in Bold | Arms extend 0.30 of the cell in every weight |
 | `a` | Stem bends right into a small spur at the baseline | Stem runs straight down to a flat foot, as in JetBrains Mono, DM Mono, and [Source Code Pro](https://github.com/adobe-fonts/source-code-pro) |
 | `%` | Short slash across the middle of the glyph, ends cut square to the stroke | Slash runs from the baseline to the cap height across the rings, cut flat like `/`, as in JetBrains Mono |
-| `r` | Bare stem | Flag at the x-height and foot bar on the baseline, drawn like Roboto's own `i`, as in [IBM Plex Mono](https://github.com/IBM/plex), DM Mono, and [Geist Mono](https://github.com/vercel/geist-font) |
+| `r` | Bare stem; arm stops short of `f`'s hook | Flag at the x-height and foot bar on the baseline, drawn like Roboto's own `i`, and an arm as long as `f`'s hook, as in [IBM Plex Mono](https://github.com/IBM/plex), DM Mono, and [Geist Mono](https://github.com/vercel/geist-font) |
 | `$` `¢` | Bar ends stick out above and below the outline | Bar runs through the glyph from top to bottom, as in JetBrains Mono, IBM Plex Mono, and DM Mono |
 
 Details:
@@ -96,8 +96,13 @@ Details:
   - **Flag.** It is 0.75 as long as i's (0.68 to 0.81).
   - **Foot.** It starts below the end of the flag and reaches 1.25 times as
     far right of the stem as left of it (1.22 to 1.32).
-  - **Shoulder.** The arm's end stays put, so the shoulder narrows to 0.79
-    to 0.81 of its width.
+  - **Arm.** Upstream, r's arm stops 0.047 of the cell short of f's hook.
+    JetBrains Mono ends the two together, and in IBM Plex Mono, DM Mono, and
+    Geist Mono, r's arm reaches 0.01 to 0.07 of the cell further. The arm
+    now reaches as far as f's hook, 30 to 58 units further than upstream.
+    The shoulder narrows to 0.85 to 0.89 of its width to make room for the
+    stem. The tightest gap after r is 145 units in Regular (`r%`, `rw`) and
+    105 in Bold (`rw`), against 85 for Roboto's own `ww` in Regular.
 
   ŕ, ř, and ŗ follow, and their accents move with the stem. Relative to
   the stem, Roboto already places the acute and caron where those fonts do,
