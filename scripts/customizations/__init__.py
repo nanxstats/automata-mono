@@ -10,6 +10,7 @@ from .base import Customization, CustomizationError, Style, apply_customizations
 from .brackets import LongerBrackets
 from .comma import StraightComma
 from .currency_bars import FullCurrencyBars
+from .flat_hooks import FlatHooks
 from .g_spur import SpurG
 from .one_foot import FootedOne
 from .open_six_nine import OpenSixNine
@@ -36,6 +37,7 @@ CUSTOMIZATIONS = (
     DottedZero(),
     FootedOne(),
     OpenSixNine(),
+    FlatHooks(),
 )
 
 __all__ = [
