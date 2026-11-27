@@ -5,8 +5,8 @@ import math
 import fontforge
 
 from .base import Customization
-from .geometry import Line, ahead, bounds, rounded
-from .outline import contour, replace_contours
+from .geometry import Line, ahead, bounds, rounded, turn
+from .outline import contour, implied, replace_contours
 
 
 class DottedZero(Customization):
@@ -152,8 +152,7 @@ class DottedZero(Customization):
             before, end = a[-2][:2], a[-1][:2]
             start, after = b[0][:2], b[1][:2]
             if not (tail or head) and (
-                max(_angle(before, end, start), _angle(end, start, after))
-                < self.STRAIGHT
+                max(turn(before, end, start), turn(end, start, after)) < self.STRAIGHT
             ):
                 return 0, 0, None
             try:
@@ -193,8 +192,8 @@ class DottedZero(Customization):
             )
             for point in points
         ]
-        for index, implied in enumerate(_implied(points)):
-            if implied:
+        for index, flag in enumerate(implied(points)):
+            if flag:
                 before, after = result[index - 1], result[(index + 1) % len(result)]
                 result[index] = fontforge.point(
                     (before.x + after.x) / 2, (before.y + after.y) / 2, True
@@ -214,31 +213,6 @@ def _trim(path, head, tail):
     return path[start : end + 1]
 
 
-def _angle(a, b, c):
-    """Degrees between the direction from a to b and from b to c."""
-    turn = math.atan2(c[1] - b[1], c[0] - b[0]) - math.atan2(b[1] - a[1], b[0] - a[0])
-    return abs(math.degrees((turn + math.pi) % (2 * math.pi) - math.pi))
-
-
 def _width(outline):
     x_min, _, x_max, _ = outline.boundingBox()
     return x_max - x_min
-
-
-def _implied(points):
-    """Flags for on-curve points midway between two handles.
-
-    TrueType leaves such points out, and FontForge reads them back.
-    """
-    count = len(points)
-    flags = []
-    for index, point in enumerate(points):
-        before, after = points[index - 1], points[(index + 1) % count]
-        flags.append(
-            point.on_curve
-            and not before.on_curve
-            and not after.on_curve
-            and (point.x, point.y)
-            == ((before.x + after.x) / 2, (before.y + after.y) / 2)
-        )
-    return flags

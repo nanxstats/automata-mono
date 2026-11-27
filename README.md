@@ -23,6 +23,8 @@ glyphs. Everything else is Roboto Mono, unchanged.
 | `G` | Bowl sweeps into a stem that stops above the baseline, as in Source Code Pro | Stem runs straight down to a flat foot, with a spur where the bowl joins it like `d`'s, as in IBM Plex Mono, DM Mono, and Geist Mono |
 | `Q` | Tail leans 40 to 46 degrees, its end cut square to the stroke | Straight tail at 50 degrees, cut flat under the right edge of the bowl, as in JetBrains Mono and DM Mono |
 | `0` | Slashed, like `Ø` | Round dot in the middle of the counter, as in JetBrains Mono, IBM Plex Mono, and Source Code Pro |
+| `1` | Flag and a bare stem | `l`'s foot bar on the baseline, under Roboto's flag, as in JetBrains Mono and IBM Plex Mono |
+| `6` `9` | Curved stroke ending in an upright cut | Straight stroke tangent to the counter, cut flat at the figure height and on the baseline, as in JetBrains Mono |
 
 Details:
 
@@ -188,6 +190,38 @@ Details:
   At 11 to 14 px, the dot is one to two pixels across in Regular, lighter
   than the slash. In Bold at 11 and 12 px, it runs into the sides of the counter as
   the slash did, but 0 stays narrower than O.
+- **One.** Roboto's 1 stands on a bare stem. It now has a foot bar on the
+  baseline, as in JetBrains Mono and IBM Plex Mono, so 1 matches l and r.
+  The foot is `l`'s own, with its thickness and ends, so 1 and l line up
+  in a column of code. The stem stays where it is, so the foot reaches
+  1.15 to 1.17 times as far left of the stem as right of it (1.22 in
+  JetBrains Mono). The flag is unchanged: it already reaches as far left
+  as the foot, from 5 units short (Regular) to 28 past (Bold Italic), as
+  JetBrains Mono's does. Its slope keeps 1 apart from l, whose flag is
+  level, at small sizes. `¹` and the 1 in `½` `¼` `⅛` keep Roboto's
+  design.
+- **Six and nine.** Roboto's 6 and 9 curve their strokes out of the bowl
+  and end them in an upright cut. They now have the open design of
+  JetBrains Mono: a straight stroke, cut flat.
+  - **Stroke.** It leans 60 degrees, as in JetBrains Mono (58 to 61).
+    Google Sans Code's leans 48 to 53 and is cut square to the stroke. Its
+    inner edge is tangent to the counter, and it is as thick as the leg of
+    7 at its flat end: 176 units in Regular, 50 in Thin, and 266 in Bold.
+    So its outer edge reaches the figure height within 0.03 of the cell of
+    the middle of the bowl; JetBrains Mono's is within 0.04. It is cut flat
+    at the figure height (6) and on the baseline (9), where 7's bar and
+    leg end.
+  - **Bowl.** From halfway around its lower corner, the bowl's side is
+    redrawn as two curves: one to upstream's straight side at the middle
+    of the bowl, and one from there into the stroke. The stroke's inner
+    edge leaves the top of the bowl up to 87 units below its highest
+    point. The rest of the bowl is unchanged.
+  - **Counter.** Where the curved stroke pulled away from it, the counter
+    turns a corner of 7 to 27 degrees. Next to a straight stroke, the
+    corner reads as a dent, so it is rounded off with one curve tangent to
+    both sides.
+
+  9 is built like 6 turned half a turn, from its own bowl.
 
 Italics get the same changes, slanted to Roboto Mono Italic's 10-degree angle.
 

@@ -65,6 +65,25 @@ def contour(points, like):
     return result
 
 
+def implied(points):
+    """Flags for on-curve points midway between two handles.
+
+    TrueType leaves such points out, and FontForge reads them back.
+    """
+    count = len(points)
+    flags = []
+    for index, point in enumerate(points):
+        before, after = points[index - 1], points[(index + 1) % count]
+        flags.append(
+            point.on_curve
+            and not before.on_curve
+            and not after.on_curve
+            and (point.x, point.y)
+            == ((before.x + after.x) / 2, (before.y + after.y) / 2)
+        )
+    return flags
+
+
 def single_contour(glyph):
     if glyph.references or len(glyph.foreground) != 1:
         raise ValueError(

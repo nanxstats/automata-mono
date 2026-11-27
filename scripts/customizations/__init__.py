@@ -11,6 +11,8 @@ from .brackets import LongerBrackets
 from .comma import StraightComma
 from .currency_bars import FullCurrencyBars
 from .g_spur import SpurG
+from .one_foot import FootedOne
+from .open_six_nine import OpenSixNine
 from .percent import FullPercentSlash
 from .q_tail import FlatTailQ
 from .r_serifs import SlabR
@@ -32,6 +34,8 @@ CUSTOMIZATIONS = (
     SpurG(),
     FlatTailQ(),
     DottedZero(),
+    FootedOne(),
+    OpenSixNine(),
 )
 
 __all__ = [
