@@ -19,8 +19,8 @@ import uharfbuzz as hb
 
 from config import STYLES, output_name, upstream_font
 
-GLYPHS_TEXT = "ij; a\u0105, b  y \u1ef5 \u0443 \u0133  tf\u0165 [0] %/"
-CODE_TEXT = "for (int i = 0; i < j; i++) { a[i] = fix(t, y) % 8; }"
+GLYPHS_TEXT = "ij; a\u0105, b  y \u1ef5 \u0443 \u0133  tf\u0165 [0] %/ r\u0159\u0157 $\u00a2"
+CODE_TEXT = "for (int i = 0; i < j; i++) { a[i] = fix(t, y) % 8; } return $err;"
 LIGATURES_TEXT = "-> => != === <= >= |> <| || :: ... /* */ <!-- --> www && ?? ;;"
 SMALL_SIZES = (11, 12, 13, 14, 16)
 SMALL_STYLES = ("Regular", "Bold")

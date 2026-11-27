@@ -9,7 +9,9 @@ from .a_tail import StraightTailA
 from .base import Customization, CustomizationError, Style, apply_customizations
 from .brackets import LongerBrackets
 from .comma import StraightComma
+from .currency_bars import FullCurrencyBars
 from .percent import FullPercentSlash
+from .r_serifs import SlabR
 from .t_top import TallerT
 from .tittle import Tittles
 from .y_tail import StraightTailY
@@ -22,6 +24,8 @@ CUSTOMIZATIONS = (
     LongerBrackets(),
     StraightTailA(),
     FullPercentSlash(),
+    SlabR(),
+    FullCurrencyBars(),
 )
 
 __all__ = ["CUSTOMIZATIONS", "Customization", "CustomizationError", "Style", "apply_customizations"]

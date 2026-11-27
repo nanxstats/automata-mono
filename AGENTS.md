@@ -42,7 +42,9 @@
   of the stem center, straight-tail y, t stem at 0.86 of the way from
   x-height to cap height, bracket arms 0.30 of the cell past the stem,
   a straight a stem cut flat at the baseline (ą follows), a % slash from
-  the baseline to the cap height across the rings, cut flat.
+  the baseline to the cap height across the rings, cut flat, an r with
+  i's flag and foot and its stem 0.10 of the cell left of i's (ŕ ř ŗ
+  accents move with it), and $ and ¢ bars through the glyph at $'s width.
 
 ## Ligatures
 

@@ -18,6 +18,8 @@ glyphs. Everything else is Roboto Mono, unchanged.
 | `[` `]` | Arms extend 0.18 of the cell past the stem in Regular, shrinking to 0.14 in Bold | Arms extend 0.30 of the cell in every weight |
 | `a` | Stem bends right into a small spur at the baseline | Stem runs straight down to a flat foot, as in JetBrains Mono, DM Mono, and [Source Code Pro](https://github.com/adobe-fonts/source-code-pro) |
 | `%` | Short slash across the middle of the glyph, ends cut square to the stroke | Slash runs from the baseline to the cap height across the rings, cut flat like `/`, as in JetBrains Mono |
+| `r` | Bare stem | Flag at the x-height and foot bar on the baseline, drawn like Roboto's own `i`, as in [IBM Plex Mono](https://github.com/IBM/plex), DM Mono, and [Geist Mono](https://github.com/vercel/geist-font) |
+| `$` `¢` | Bar ends stick out above and below the outline | Bar runs through the glyph from top to bottom, as in JetBrains Mono, IBM Plex Mono, and DM Mono |
 
 Details:
 
@@ -83,6 +85,36 @@ Details:
   units past the cell, closer to neighboring glyphs than upstream but
   within the spacing of Roboto's own tightest italic pairs. `‰` keeps
   Roboto's design.
+- **r.** Roboto Mono gives i, j, and l slab serifs but leaves r a bare
+  stem, with a wide gap on its left. r now gets a flag at the x-height and
+  a foot bar on the baseline, as in IBM Plex Mono, DM Mono, and Geist Mono.
+  Both have the thickness of i's flag and foot in each weight. The
+  proportions are measured from those three fonts:
+  - **Stem.** It moves 110 to 120 units right, to 0.10 of the cell left of
+    i's stem (0.08 to 0.11 in those fonts). Upstream, it sits 0.20 left of
+    i's, which leaves no room for a flag.
+  - **Flag.** It is 0.75 as long as i's (0.68 to 0.81).
+  - **Foot.** It starts below the end of the flag and reaches 1.25 times as
+    far right of the stem as left of it (1.22 to 1.32).
+  - **Shoulder.** The arm's end stays put, so the shoulder narrows to 0.79
+    to 0.81 of its width.
+
+  ŕ, ř, and ŗ follow, and their accents move with the stem. Relative to
+  the stem, Roboto already places the acute and caron where those fonts do,
+  and the comma of ŗ stays under the stem, as in ļ. At 11 and 12 px, r
+  reads close to a small capital I, as it does in those fonts.
+- **Dollar and cent.** Roboto's bar ends stick out above and below the
+  outline but stop at it. The bar now runs straight through, as in
+  JetBrains Mono, IBM Plex Mono, and DM Mono. It closes the two counters of
+  `$` and the left of the counter of `¢`.
+  - **Position.** Upstream draws the two ends of `$`'s bar up to 21 units
+    apart in upright styles, and up to 49 in italics, varying by weight. The
+    bar runs halfway between them, upright or at the italic angle.
+  - **Width.** `$` keeps the width of its bar ends, 0.81 of the stem of n
+    in Regular. Those fonts draw both bars at the same width, 0.50 to 0.83
+    of their stems. Roboto's `¢` ends are as wide as the stroke of c, which
+    would clog the counter, so `¢` takes `$`'s bar width: 149 units instead
+    of 185 in Regular, and 160 instead of 200 in Bold.
 
 Italics get the same changes, slanted to Roboto Mono Italic's 10-degree angle.
 
