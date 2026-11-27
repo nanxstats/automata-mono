@@ -38,7 +38,8 @@
   so one rule covers every weight and italic. Assert the structure you rely
   on, and preserve contour direction.
 - Current customizations: straight comma (Cyrillic tailed letters keep the
-  upstream comma), i/j dots at a 0.11 em gap, straight-tail y.
+  upstream comma), i/j dots at a 0.11 em gap, straight-tail y, t stem at
+  0.86 of the way from x-height to cap height.
 
 ## Ligatures
 
