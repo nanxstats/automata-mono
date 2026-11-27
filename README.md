@@ -5,6 +5,16 @@ with [Fira Code](https://github.com/tonsky/FiraCode) programming ligatures added
 by [Ligaturizer](https://github.com/ToxicFrog/Ligaturizer) and a few redrawn
 glyphs. Everything else is Roboto Mono, unchanged.
 
+## Install
+
+Install with Homebrew:
+
+```bash
+brew install --cask nanxstats/tap/font-automata-mono
+```
+
+Or install the `fonts/AutomataMono-*.ttf` files using your OS font manager.
+
 ## Changes from Roboto Mono
 
 ### Glyphs
