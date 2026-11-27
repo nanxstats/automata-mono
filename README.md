@@ -171,13 +171,13 @@ Details:
   middle of its counter, as in JetBrains Mono, IBM Plex Mono, and Source
   Code Pro.
   - **Dot.** It is the style's own period, scaled down, so it keeps
-    Roboto's dot shape in every weight. It is 0.7 as wide as the period, at
-    half its area. In JetBrains Mono, the dot of 0 has 0.44 to 0.52 of the
-    period's area in every weight. Roboto's period grows faster with weight
+    Roboto's dot shape in every weight. It is 0.85 as wide as the period,
+    so in Regular it is 0.44 as wide as the counter, against 0.39 to 0.48
+    in those fonts and Fira Mono. Roboto's period grows faster with weight
     than the counter of 0, so the dot is at most 0.6 as wide as the
-    counter, as in those fonts' Bold (0.52 to 0.66). Only Bold and Bold
-    Italic reach that limit. Dots are 83 units wide in Thin, 205 in
-    Regular, 243 in Medium, and 232 in Bold.
+    counter, as in those fonts' Bold (0.52 to 0.66). Medium and Bold reach
+    that limit. Dots are 101 units wide in Thin, 249 in Regular, 279 in
+    Medium, and 232 in Bold.
   - **Counter.** The slash cut the counter in two. Each side is closed with
     one curve tangent to both halves, or a straight line in Bold, where
     the halves end on the counter's straight sides. In Light, interpolated
@@ -185,8 +185,8 @@ Details:
     narrows by up to 9 units next to the slash. That narrowing is smoothed
     out. The outer outline is unchanged.
 
-  At 11 to 14 px, the dot is about one pixel in Regular, lighter than the
-  slash. In Bold at 11 and 12 px, it runs into the sides of the counter as
+  At 11 to 14 px, the dot is one to two pixels across in Regular, lighter
+  than the slash. In Bold at 11 and 12 px, it runs into the sides of the counter as
   the slash did, but 0 stays narrower than O.
 
 Italics get the same changes, slanted to Roboto Mono Italic's 10-degree angle.

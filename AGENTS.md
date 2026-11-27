@@ -52,8 +52,8 @@
   cap height over x-height (Ğ Ĝ Ģ Ġ and small caps follow), a Q tail at 50
   degrees, cut flat at upstream's depth and thickness with its right corner
   under the bowl's right edge (the small cap follows), and a 0 with a dot
-  in place of the slash: the period at 0.7 of its width, at most 0.6 of the
-  counter's.
+  in place of the slash: the period at 0.85 of its width, at most 0.6 of
+  the counter's.
 
 ## Ligatures
 

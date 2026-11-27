@@ -17,13 +17,14 @@ class DottedZero(Customization):
     )
     redraws = ("zero",)
 
-    # The dot is the period at 0.7 of its width, half its area. In JetBrains
-    # Mono, the dot of 0 has 0.44 to 0.52 the area of the period in every
-    # weight. Roboto's period grows faster with weight than the counter of 0
-    # can take, so the dot is at most 0.6 as wide as the counter: JetBrains
-    # Mono's Bold dot is 0.58 as wide as its counter, IBM Plex Mono's 0.52,
-    # and Source Code Pro's 0.66. Only Bold and Bold Italic reach that limit.
-    SCALE = 0.7
+    # The dot is the period at 0.85 of its width. In Regular, it is then 0.44
+    # as wide as the counter: IBM Plex Mono's is 0.39, Source Code Pro's
+    # 0.41, JetBrains Mono's 0.45, and Fira Mono's 0.48. Roboto's period
+    # grows faster with weight than the counter of 0 can take, so the dot is
+    # at most 0.6 as wide as the counter: JetBrains Mono's Bold dot is 0.58
+    # as wide as its counter, IBM Plex Mono's 0.52, and Source Code Pro's
+    # 0.66. Medium and Bold reach that limit.
+    SCALE = 0.85
     MAX_WIDTH = 0.6
     # Joining the halves may round the counter out past upstream's by this
     # many units at most.
