@@ -5,6 +5,7 @@ the contract the build enforces) and append an instance to CUSTOMIZATIONS.
 These modules run inside FontForge's Python.
 """
 
+from .a_tail import StraightTailA
 from .base import Customization, CustomizationError, Style, apply_customizations
 from .brackets import LongerBrackets
 from .comma import StraightComma
@@ -18,6 +19,7 @@ CUSTOMIZATIONS = (
     StraightTailY(),
     TallerT(),
     LongerBrackets(),
+    StraightTailA(),
 )
 
 __all__ = ["CUSTOMIZATIONS", "Customization", "CustomizationError", "Style", "apply_customizations"]

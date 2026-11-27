@@ -16,6 +16,7 @@ glyphs. Everything else is Roboto Mono, unchanged.
 | `y` | Hooked tail | Straight tail cut flat at the descender, as in JetBrains Mono and [DM Mono](https://github.com/googlefonts/dm-mono) |
 | `t` | Stem rises 70% of the way from x-height to cap height (78% in Thin) | Stem rises 86% of the way in every weight, as in JetBrains Mono |
 | `[` `]` | Arms extend 0.18 of the cell past the stem in Regular, shrinking to 0.14 in Bold | Arms extend 0.30 of the cell in every weight |
+| `a` | Stem bends right into a small spur at the baseline | Stem runs straight down to a flat foot, as in JetBrains Mono, DM Mono, and [Source Code Pro](https://github.com/adobe-fonts/source-code-pro) |
 
 Details:
 
@@ -60,6 +61,16 @@ Details:
   Mono (about 0.26) and IBM Plex Mono and Source Code Pro (about 0.35). The
   stem, the arm thickness, and the height are unchanged. Italic arm tips
   keep their slant.
+- **a.** Below its straight part, Roboto's stem bends right into a spur
+  that sticks out 30 to 45 units past the stem at the baseline. Italic
+  stems also turn upright there. The stem now continues straight to the
+  baseline and is cut flat, so italic stems keep their slant. The bowl is
+  unchanged. The foot's inner edge starts where the bowl meets the stem,
+  parallel to the outer edge. Roboto's bowl joins slightly inside the stem,
+  so the foot is 96% to 100% of the stem width in upright styles and 90% to
+  94% in italics. ą gets the same foot, and its ogonek moves up to 10 units
+  sideways so that it still hangs from the stem's outer corner. Accented and
+  Cyrillic forms (à á â ã ä å ā ă ǻ ḁ ạ ả ấ ầ ẩ ẫ ậ ắ ằ ẳ ẵ ặ, а ӑ ӓ) follow.
 
 Italics get the same changes, slanted to Roboto Mono Italic's 10-degree angle.
 
@@ -230,7 +241,7 @@ The build enforces the declaration:
 The manifest records the result, and `make check` verifies it in the final
 fonts. Helpers in `outline.py` and `geometry.py` cover the common needs:
 flattening outlines, rebuilding contours in their original direction, and
-line intersections. Measure from the upstream outline rather than
+line and curve intersections. Measure from the upstream outline rather than
 hard-coding coordinates, so one rule works across weights and italics. Then
 run `make check` and `make proof`.
 
