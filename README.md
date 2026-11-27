@@ -21,7 +21,7 @@ Or install the `fonts/AutomataMono-*.ttf` files using your OS font manager.
 
 | Glyph | Roboto Mono | Automata Mono |
 | --- | --- | --- |
-| `,` `;` | Flat head with a curved hook | Straight, slightly tapered tail in the style of [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) |
+| `,` `;` | Flat head with a curved hook | Straight tapered tail in the style of [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono), its head grown with the period |
 | `i` `j` | Small dots; gap shrinks from 0.116 em (Thin) to 0.063 em (Bold) | Dots 15% larger, 0.11 em above the stem in every weight, slightly left of center |
 | `y` | Hooked tail | Straight tail cut flat at the descender, as in JetBrains Mono and [DM Mono](https://github.com/googlefonts/dm-mono) |
 | `t` | Stem rises 70% of the way from x-height to cap height (78% in Thin) | Stem rises 86% of the way in every weight, as in JetBrains Mono |
@@ -36,16 +36,21 @@ Or install the `fonts/AutomataMono-*.ttf` files using your OS font manager.
 | `1` | Flag and a bare stem | `l`'s foot bar on the baseline, under Roboto's flag, as in JetBrains Mono and IBM Plex Mono |
 | `6` `9` | Curved stroke ending in an upright cut | Straight stroke tangent to the counter, cut flat at the figure height and on the baseline, as in JetBrains Mono |
 | `f` `g` `j` `t` | Hooks curl on past the ascender, baseline, or descender into a cut square to the stroke | Hooks run flat along the line into an upright cut, as in JetBrains Mono, Geist Mono, and DM Mono |
+| `.` `:` `;` | Small dots for their stems | Dots 15% larger, as wide as JetBrains Mono's and Google Sans Code's in Regular |
+| `!` `?` `¡` `¿` | Dots 0.79 to 0.84 as wide as the period (0.97 in Thin) | Dots 0.9 as wide as the larger period, as in JetBrains Mono and Source Code Pro, at Roboto's gap from the stroke |
 
 Details:
 
-- **Comma.** Keeps Roboto's head (position, width, height) and depth in each
+- **Comma.** Keeps the center of Roboto's head and its depth in each
   weight, so the comma still scales with the stem and the semicolon stays
-  aligned under its dot. The tail leans about 10 degrees, and the foot is 85%
-  as wide as the head. These proportions are measured from JetBrains Mono.
-  The semicolon uses the comma, so it changes too. The Cyrillic letters with
-  a tail (Ҋ ҋ Ӆ ӆ Ӊ ӊ Ӎ ӎ) reuse the comma for their descenders and keep
-  Roboto's design.
+  aligned under its dot. The tail leans about 10 degrees, as in JetBrains
+  Mono. The head grows with the period (see **Dots**): it is 15% wider, so
+  it keeps Roboto's 0.69 of the period's width in Regular (JetBrains Mono
+  0.66, DM Mono 0.74), and its top rises as far as the period's. The foot
+  keeps its width, so it is 0.74 as wide as the head, as in DM Mono (0.72
+  to 0.76); JetBrains Mono's is about 0.85. The semicolon uses the comma, so it
+  changes too. The Cyrillic letters with a tail (Ҋ ҋ Ӆ ӆ Ӊ ӊ Ӎ ӎ) reuse the
+  comma for their descenders and keep Roboto's design.
 - **i and j.** Roboto keeps its dots at about the same height in every weight
   and grows them downward, so heavier weights crowd the stem. At small sizes,
   the dot blurs into the stem. Automata Mono places every dot 225 units
@@ -251,6 +256,33 @@ Details:
     the cell; Roboto's reach 78 and 41 units past them in Regular.
 
   ŧ, ť, ţ, ț, ğ, ĝ, ģ, ġ, ĳ, ȷ, ĵ, ǰ, and Cyrillic ј follow.
+- **Dots.** Roboto's period is small for its stems: it is 1.58 times as
+  wide as the stem of n in Regular, against 1.79 to 1.98 in JetBrains Mono,
+  IBM Plex Mono, Source Code Pro, DM Mono, and Google Sans Code. The dots of
+  ! and ? are smaller still, 0.79 (Regular) to 0.84 (Light and Bold) as
+  wide as the period. Those fonts draw them 0.86 to 1.00 as wide from
+  Light to Bold.
+  - **Period.** It is 15% larger, as the dots of i and j are, so it keeps
+    Roboto's progression across weights. It grows from the middle of its
+    bottom, so it stays on the baseline. In Regular it is now 164 units per
+    1000 em wide, as in JetBrains Mono (164) and Google Sans Code (164.5),
+    and 1.82 times the stem. In Bold it is 1.59 times the stem (1.36 to
+    1.58 in those fonts).
+  - **Colon and semicolon.** They use the period. The lower dot of `:`
+    grows up from the baseline, and the upper dots of `:` and `;` grow down
+    from their tops, so both glyphs keep their height.
+  - **! ? ¡ ¿.** Their dots are 0.9 as wide as the larger period, as in
+    JetBrains Mono and Source Code Pro (0.86 to 0.91 from Regular to
+    Bold): 31% larger than Roboto's in Regular and 23% in Bold. Each dot
+    keeps its own shape, its center, and its place on the baseline (on top
+    in ¡ and ¿). The stroke is cut back by as much as the dot grows, so
+    the gap stays Roboto's. In Bold, ?'s dot would otherwise come within 37
+    units per 1000 em of the stroke. That leaves ? a short stub in Bold, as
+    in IBM Plex Mono and Source Code Pro. ‼ follows.
+
+  … and ‥ keep Roboto's dots: those fonts draw them smaller than their
+  periods, and larger ones would nearly touch. The dot of 0 is still
+  Roboto's period, scaled down.
 
 Italics get the same changes, slanted to Roboto Mono Italic's 10-degree angle.
 

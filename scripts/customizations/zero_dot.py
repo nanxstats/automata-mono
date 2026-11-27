@@ -6,7 +6,7 @@ import fontforge
 
 from .base import Customization
 from .geometry import Line, ahead, bounds, rounded, turn
-from .outline import contour, implied, replace_contours
+from .outline import contour, mapped, replace_contours
 
 
 class DottedZero(Customization):
@@ -184,21 +184,13 @@ class DottedZero(Customization):
         middle = ((left + right) / 2, (bottom + top) / 2)
         width = min(self.SCALE * (right - left), self.MAX_WIDTH * counter)
         scale = width / (right - left)
-        result = [
-            fontforge.point(
-                round(center[0] + (point.x - middle[0]) * scale),
-                round(center[1] + (point.y - middle[1]) * scale),
-                point.on_curve,
-            )
-            for point in points
-        ]
-        for index, flag in enumerate(implied(points)):
-            if flag:
-                before, after = result[index - 1], result[(index + 1) % len(result)]
-                result[index] = fontforge.point(
-                    (before.x + after.x) / 2, (before.y + after.y) / 2, True
-                )
-        return result
+        return mapped(
+            points,
+            lambda x, y: (
+                center[0] + (x - middle[0]) * scale,
+                center[1] + (y - middle[1]) * scale,
+            ),
+        )
 
 
 def _trim(path, head, tail):

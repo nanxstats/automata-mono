@@ -21,10 +21,11 @@ from config import STYLES, output_name, upstream_font
 
 GLYPHS_TEXT = (
     "ij; a\u0105, b  y \u1ef5 \u0443 \u0133  tf\u0165\u0163 g [0] %/ r\u0159\u0157"
-    " $\u00a2 CG\u0122 6 OQ 0\u00d8 1lI 69"
+    " $\u00a2 CG\u0122 6 OQ 0\u00d8 1lI 69 .:!?\u00a1\u00bf"
 )
 CODE_TEXT = (
-    "for (int i = 0; i < j; i++) { a[i] = fix(t, y) % 196; } return Get($arg, Q, 0xC6);"
+    "for (int i = 0; i < j; i++) { a[i] = !ok ? fix(t, y) % 196 : 0; }"
+    " return Get($arg, Q, 0xC6);"
 )
 LIGATURES_TEXT = "-> => != === <= >= |> <| || :: ... /* */ <!-- --> www && ?? ;;"
 SMALL_SIZES = (11, 12, 13, 14, 16)
