@@ -21,6 +21,8 @@ glyphs. Everything else is Roboto Mono, unchanged.
 | `r` | Bare stem; arm stops short of `f`'s hook | Flag at the x-height and foot bar on the baseline, drawn like Roboto's own `i`, and an arm as long as `f`'s hook, as in [IBM Plex Mono](https://github.com/IBM/plex), DM Mono, and [Geist Mono](https://github.com/vercel/geist-font) |
 | `$` `¢` | Bar ends stick out above and below the outline | Bar runs through the glyph from top to bottom, as in JetBrains Mono, IBM Plex Mono, and DM Mono |
 | `G` | Bowl sweeps into a stem that stops above the baseline, as in Source Code Pro | Stem runs straight down to a flat foot, with a spur where the bowl joins it like `d`'s, as in IBM Plex Mono, DM Mono, and Geist Mono |
+| `Q` | Tail leans 40 to 46 degrees, its end cut square to the stroke | Straight tail at 50 degrees, cut flat under the right edge of the bowl, as in JetBrains Mono and DM Mono |
+| `0` | Slashed, like `Ø` | Round dot in the middle of the counter, as in JetBrains Mono, IBM Plex Mono, and Source Code Pro |
 
 Details:
 
@@ -142,6 +144,50 @@ Details:
   At 11 to 14 px, the stem reaches the baseline as a square corner that C
   and 6 lack. Ğ, Ĝ, Ģ, Ġ, and the small capital G (`smcp`) follow; small
   caps scale the join by the small-cap height instead.
+- **Q.** Roboto's tail leans 40 to 46 degrees, and its end is cut square
+  to the stroke. JetBrains Mono and DM Mono cut their straight tails flat:
+  JetBrains Mono's leans 59 degrees and DM Mono's 46 to 48. Their flat ends
+  are 1.0 to 1.3 times as wide as the bowl's stroke. The tail now leans 50
+  degrees and is cut flat, with Roboto's thickness and depth (246 to 263
+  units below the baseline):
+  - **End.** It is 1.05 (Bold Italic) to 1.30 (Thin) strokes wide. Cut
+    flat at Roboto's angle, it would be up to 1.5 strokes wide and end in
+    a sharp corner.
+  - **Position.** The end's right corner sits under the bowl's right edge,
+    as in those fonts: JetBrains Mono's ends up to 31 units past it, and DM
+    Mono's up to 37 short of it. Roboto's ranges from 37 units short
+    (Thin) to 61 past (Bold). In Regular through Bold, the tail moves 66 to
+    150 units toward the middle of the bowl. Its center line now crosses
+    the baseline 0.31 to 0.39 of the bowl's half-width right of center,
+    against 0.51 to 0.59 upstream and 0.23 to 0.36 in those fonts. In Thin,
+    it moves 33 units right.
+  - **Bowl.** The bowl's outer edge is closed under the old tail with one
+    curve, tangent to Roboto's on both sides, and the new tail leaves it
+    there. The rest of the bowl and the counter are unchanged.
+
+  The small capital Q (`smcp`) follows.
+- **Zero.** Roboto slashes its zero, so it reads close to `Ø`, and the
+  slash darkens it at small sizes. The zero now has a round dot in the
+  middle of its counter, as in JetBrains Mono, IBM Plex Mono, and Source
+  Code Pro.
+  - **Dot.** It is the style's own period, scaled down, so it keeps
+    Roboto's dot shape in every weight. It is 0.7 as wide as the period, at
+    half its area. In JetBrains Mono, the dot of 0 has 0.44 to 0.52 of the
+    period's area in every weight. Roboto's period grows faster with weight
+    than the counter of 0, so the dot is at most 0.6 as wide as the
+    counter, as in those fonts' Bold (0.52 to 0.66). Only Bold and Bold
+    Italic reach that limit. Dots are 83 units wide in Thin, 205 in
+    Regular, 243 in Medium, and 232 in Bold.
+  - **Counter.** The slash cut the counter in two. Each side is closed with
+    one curve tangent to both halves, or a straight line in Bold, where
+    the halves end on the counter's straight sides. In Light, interpolated
+    between masters that the slash cuts in different places, the counter
+    narrows by up to 9 units next to the slash. That narrowing is smoothed
+    out. The outer outline is unchanged.
+
+  At 11 to 14 px, the dot is about one pixel in Regular, lighter than the
+  slash. In Bold at 11 and 12 px, it runs into the sides of the counter as
+  the slash did, but 0 stays narrower than O.
 
 Italics get the same changes, slanted to Roboto Mono Italic's 10-degree angle.
 
@@ -292,12 +338,12 @@ from .base import Customization
 class ExampleCustomization(Customization):
     name = "example"
     summary = "What changes and why"
-    redraws = ("zero",)  # glyphs whose outlines redraw() replaces
+    redraws = ("l",)  # glyphs whose outlines redraw() replaces
     inherits = ()  # composites using them that should follow
     preserves = ()  # composites using them that keep the old design
 
     def redraw(self, font, style):
-        # Edit font["zero"]; style has em, slant, descender.
+        # Edit font["l"]; style has em, slant, descender.
         ...
 ```
 

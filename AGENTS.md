@@ -49,7 +49,11 @@
   ending level with f's hook (ŕ ř ŗ accents move with the stem), $ and ¢
   bars through the glyph at $'s width, and a G stem cut flat at the
   baseline with a spur, joined to the bowl like d's at heights scaled by
-  cap height over x-height (Ğ Ĝ Ģ Ġ and small caps follow).
+  cap height over x-height (Ğ Ĝ Ģ Ġ and small caps follow), a Q tail at 50
+  degrees, cut flat at upstream's depth and thickness with its right corner
+  under the bowl's right edge (the small cap follows), and a 0 with a dot
+  in place of the slash: the period at 0.7 of its width, at most 0.6 of the
+  counter's.
 
 ## Ligatures
 

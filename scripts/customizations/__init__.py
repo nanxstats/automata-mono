@@ -12,10 +12,12 @@ from .comma import StraightComma
 from .currency_bars import FullCurrencyBars
 from .g_spur import SpurG
 from .percent import FullPercentSlash
+from .q_tail import FlatTailQ
 from .r_serifs import SlabR
 from .t_top import TallerT
 from .tittle import Tittles
 from .y_tail import StraightTailY
+from .zero_dot import DottedZero
 
 CUSTOMIZATIONS = (
     StraightComma(),
@@ -28,6 +30,8 @@ CUSTOMIZATIONS = (
     SlabR(),
     FullCurrencyBars(),
     SpurG(),
+    FlatTailQ(),
+    DottedZero(),
 )
 
 __all__ = [
