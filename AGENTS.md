@@ -51,9 +51,12 @@
   baseline with a spur, joined to the bowl like d's at heights scaled by
   cap height over x-height (Ğ Ĝ Ģ Ġ and small caps follow), a Q tail at 50
   degrees, cut flat at upstream's depth and thickness with its right corner
-  under the bowl's right edge (the small cap follows), and a 0 with a dot
-  in place of the slash: the period at 0.85 of its width, at most 0.6 of
-  the counter's.
+  under the bowl's right edge (the small cap follows), a 0 with a dot in
+  place of the slash: the period at 0.85 of its width, at most 0.6 of the
+  counter's, a 1 with l's foot under the upstream flag, and 6 and 9 with
+  straight strokes at 60 degrees, tangent to the counter and as thick as
+  7's leg, cut flat at the figure height and on the baseline, the bowl's
+  side rebuilt into the stroke and the counter's corner rounded off.
 
 ## Ligatures
 

@@ -71,6 +71,12 @@ def rounded(point):
     return round(point[0]), round(point[1])
 
 
+def turn(a, b, c):
+    """Degrees between the direction from a to b and from b to c."""
+    angle = math.atan2(c[1] - b[1], c[0] - b[0]) - math.atan2(b[1] - a[1], b[0] - a[0])
+    return abs(math.degrees((angle + math.pi) % (2 * math.pi) - math.pi))
+
+
 def ahead(a, b, c):
     """Whether c lies ahead of b on the way from a to b."""
     return (b[0] - a[0]) * (c[0] - b[0]) + (b[1] - a[1]) * (c[1] - b[1]) > 0
@@ -98,6 +104,27 @@ def segments(points):
         start = end
         if start == first:
             return result
+
+
+def extent(points, direction):
+    """How far a closed quadratic outline (see `segments`) reaches along a
+    unit vector: the largest dot product of `direction` with its points.
+    """
+
+    def along(index):
+        return direction[0] * points[index][0] + direction[1] * points[index][1]
+
+    best = -math.inf
+    for start, control, end in segments(points):
+        a0, a2 = along(start), along(end)
+        best = max(best, a0, a2)
+        if control is not None:
+            a1 = along(control)
+            denominator = a0 - 2 * a1 + a2
+            if denominator and 0 < (a0 - a1) / denominator < 1:
+                t = (a0 - a1) / denominator
+                best = max(best, (1 - t) ** 2 * a0 + 2 * t * (1 - t) * a1 + t**2 * a2)
+    return best
 
 
 def bounds(points):
