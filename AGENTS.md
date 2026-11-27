@@ -46,8 +46,10 @@
   a straight a stem cut flat at the baseline (ą follows), a % slash from
   the baseline to the cap height across the rings, cut flat, an r with
   i's flag and foot, its stem 0.10 of the cell left of i's, and its arm
-  ending level with f's hook (ŕ ř ŗ accents move with the stem), and $ and
-  ¢ bars through the glyph at $'s width.
+  ending level with f's hook (ŕ ř ŗ accents move with the stem), $ and ¢
+  bars through the glyph at $'s width, and a G stem cut flat at the
+  baseline with a spur, joined to the bowl like d's at heights scaled by
+  cap height over x-height (Ğ Ĝ Ģ Ġ and small caps follow).
 
 ## Ligatures
 
