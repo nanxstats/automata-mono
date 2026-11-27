@@ -14,6 +14,7 @@ glyphs. Everything else is Roboto Mono, unchanged.
 | `,` `;` | Flat head with a curved hook | Straight, slightly tapered tail in the style of [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) |
 | `i` `j` | Dot gap shrinks from 0.116 em (Thin) to 0.063 em (Bold) | Dot gap is 0.11 em in every weight |
 | `y` | Hooked tail | Straight tail cut flat at the descender, as in JetBrains Mono and [DM Mono](https://github.com/googlefonts/dm-mono) |
+| `t` | Stem rises 70% of the way from x-height to cap height (78% in Thin) | Stem rises 86% of the way in every weight, as in JetBrains Mono |
 
 Details:
 
@@ -34,6 +35,12 @@ Details:
 - **y.** The right stroke continues straight to the descender of p and q, at
   the width it has at the x-height. The arms are unchanged. Accented and
   Cyrillic forms (ý ŷ ÿ ỳ ỵ ỷ ỹ, у ў ӯ ӱ ӳ) follow.
+- **t.** A short stem makes t read close to `+` and `f` at small sizes. The
+  stem top moves up to 1404 units in every weight: 60 units higher in
+  Regular through Bold, and 30 in Thin. Fira Code is at about 80%. The
+  reference is the cap height because Roboto's ascenders rise above it, so t
+  stays shorter than the capitals. The crossbar is unchanged. ŧ, ť, ţ, and ț
+  follow; the apostrophe of ť keeps its clearance.
 
 Italics get the same changes, slanted to Roboto Mono Italic's 10-degree angle.
 
