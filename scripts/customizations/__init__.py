@@ -8,12 +8,12 @@ These modules run inside FontForge's Python.
 from .base import Customization, CustomizationError, Style, apply_customizations
 from .comma import StraightComma
 from .t_top import TallerT
-from .tittle import RaisedTittles
+from .tittle import Tittles
 from .y_tail import StraightTailY
 
 CUSTOMIZATIONS = (
     StraightComma(),
-    RaisedTittles(),
+    Tittles(),
     StraightTailY(),
     TallerT(),
 )
