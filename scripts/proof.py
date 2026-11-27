@@ -14,12 +14,14 @@ import argparse
 from pathlib import Path
 
 import freetype
-from PIL import Image, ImageDraw, ImageFont
 import uharfbuzz as hb
+from PIL import Image, ImageDraw, ImageFont
 
 from config import STYLES, output_name, upstream_font
 
-GLYPHS_TEXT = "ij; a\u0105, b  y \u1ef5 \u0443 \u0133  tf\u0165 [0] %/ r\u0159\u0157 $\u00a2"
+GLYPHS_TEXT = (
+    "ij; a\u0105, b  y \u1ef5 \u0443 \u0133  tf\u0165 [0] %/ r\u0159\u0157 $\u00a2"
+)
 CODE_TEXT = "for (int i = 0; i < j; i++) { a[i] = fix(t, y) % 8; } return $err;"
 LIGATURES_TEXT = "-> => != === <= >= |> <| || :: ... /* */ <!-- --> www && ?? ;;"
 SMALL_SIZES = (11, 12, 13, 14, 16)
@@ -40,16 +42,31 @@ def render(path, text, size, hinted=False, features=None):
     face.set_pixel_sizes(0, size)
     scale = size / face.units_per_EM
     ascent, descent = round(face.ascender * scale), round(-face.descender * scale)
-    flags = freetype.FT_LOAD_RENDER | (freetype.FT_LOAD_DEFAULT if hinted else freetype.FT_LOAD_NO_HINTING)
+    flags = freetype.FT_LOAD_RENDER | (
+        freetype.FT_LOAD_DEFAULT if hinted else freetype.FT_LOAD_NO_HINTING
+    )
     cell = round(buffer.glyph_positions[0].x_advance * scale) if hinted else None
-    width = len(buffer.glyph_infos) * cell if hinted else sum(p.x_advance for p in buffer.glyph_positions) * scale
+    width = (
+        len(buffer.glyph_infos) * cell
+        if hinted
+        else sum(p.x_advance for p in buffer.glyph_positions) * scale
+    )
     image = Image.new("L", (round(width) + 2 * PAD, ascent + descent + 2 * PAD), 0)
     pen = 0.0
-    for index, (info, position) in enumerate(zip(buffer.glyph_infos, buffer.glyph_positions)):
+    for index, (info, position) in enumerate(
+        zip(buffer.glyph_infos, buffer.glyph_positions, strict=True)
+    ):
         face.load_glyph(info.codepoint, flags)
         bitmap = face.glyph.bitmap
         if bitmap.width and bitmap.rows:
-            glyph = Image.frombytes("L", (bitmap.width, bitmap.rows), bytes(bitmap.buffer), "raw", "L", bitmap.pitch)
+            glyph = Image.frombytes(
+                "L",
+                (bitmap.width, bitmap.rows),
+                bytes(bitmap.buffer),
+                "raw",
+                "L",
+                bitmap.pitch,
+            )
             x = PAD + (index * cell if hinted else round(pen)) + face.glyph.bitmap_left
             y = PAD + ascent - face.glyph.bitmap_top
             image.paste(255, (x, y), glyph)
@@ -74,7 +91,9 @@ def stack(rows, gap=PAD):
 
 
 def pair(style, args):
-    return upstream_font(args.roboto_dir, style), args.fonts_dir / (output_name(style) + ".ttf")
+    return upstream_font(args.roboto_dir, style), args.fonts_dir / (
+        output_name(style) + ".ttf"
+    )
 
 
 def glyphs_sheet(args, styles):
@@ -95,8 +114,10 @@ def small_sizes_sheet(args, styles):
                 mode = "hinted" if hinted else "unhinted"
                 for family, path in (("Roboto", before), ("Automata", after)):
                     image = render(path, CODE_TEXT, size, hinted)
-                    image = image.resize((image.width * MAGNIFY, image.height * MAGNIFY), Image.NEAREST)
-                    rows.append(("%s %s %dpx %s" % (family, style, size, mode), image))
+                    image = image.resize(
+                        (image.width * MAGNIFY, image.height * MAGNIFY), Image.NEAREST
+                    )
+                    rows.append((f"{family} {style} {size}px {mode}", image))
     return stack(rows)
 
 
@@ -105,22 +126,33 @@ def ligatures_sheet(args, styles):
     for style in styles:
         path = pair(style, args)[1]
         rows.append((style + " calt", render(path, LIGATURES_TEXT, 40)))
-        rows.append((style + " no calt", render(path, LIGATURES_TEXT, 40, features={"calt": False})))
+        rows.append(
+            (
+                style + " no calt",
+                render(path, LIGATURES_TEXT, 40, features={"calt": False}),
+            )
+        )
     return stack(rows)
 
 
 def main():
-    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+    )
     parser.add_argument("--roboto-dir", type=Path, default=Path("RobotoMono"))
     parser.add_argument("--fonts-dir", type=Path, default=Path("fonts"))
     parser.add_argument("--output-dir", type=Path, default=Path("build/proof"))
-    parser.add_argument("--style", choices=STYLES, action="append", help="default: all styles")
+    parser.add_argument(
+        "--style", choices=STYLES, action="append", help="default: all styles"
+    )
     args = parser.parse_args()
     styles = args.style or STYLES
     args.output_dir.mkdir(parents=True, exist_ok=True)
     sheets = {
         "glyphs.png": glyphs_sheet(args, styles),
-        "small-sizes.png": small_sizes_sheet(args, [s for s in styles if s in SMALL_STYLES] or styles[:1]),
+        "small-sizes.png": small_sizes_sheet(
+            args, [s for s in styles if s in SMALL_STYLES] or styles[:1]
+        ),
         "ligatures.png": ligatures_sheet(args, styles),
     }
     for name, sheet in sheets.items():

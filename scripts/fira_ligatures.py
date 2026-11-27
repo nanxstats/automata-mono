@@ -23,7 +23,10 @@ def script_languages(font):
                 systems.setdefault(script, set()).update(languages)
     if not systems:
         return FALLBACK_SCRIPTS
-    return tuple((script, tuple(sorted(languages))) for script, languages in sorted(systems.items()))
+    return tuple(
+        (script, tuple(sorted(languages)))
+        for script, languages in sorted(systems.items())
+    )
 
 
 def add_ligatures(font, fira_path, style, ligaturizer_dir):
@@ -45,7 +48,7 @@ def add_ligatures(font, fira_path, style, ligaturizer_dir):
             if spec["firacode_ligature_name"] not in fira:
                 if text in MISSING_FIRA_LIGATURES:
                     continue
-                raise ValueError("Fira Code lacks the %r ligature" % text)
+                raise ValueError(f"Fira Code lacks the {text!r} ligature")
             creator.add_ligature(spec["chars"], spec["firacode_ligature_name"])
             added.append(text)
         if creator._lig_counter != len(added):
@@ -57,7 +60,9 @@ def add_ligatures(font, fira_path, style, ligaturizer_dir):
     for lookup in set(font.gsub_lookups) - existing:
         features = font.getLookupInfo(lookup)[2]
         if features:
-            font.lookupSetFeatureList(lookup, tuple((tag, systems) for tag, _ in features))
+            font.lookupSetFeatureList(
+                lookup, tuple((tag, systems) for tag, _ in features)
+            )
 
     slant = psMat.identity()
     if style.slant:
@@ -69,7 +74,7 @@ def add_ligatures(font, fira_path, style, ligaturizer_dir):
     transforms = {}
     # Ligaturizer names ligature glyphs lig.1, lig.2, ... in the order added.
     for number, text in enumerate(added, 1):
-        glyph = font["lig.%d" % number]
+        glyph = font[f"lig.{number}"]
         transform = slant
         if text in FIT_TO_GLYPH:
             _, bottom, _, top = glyph.boundingBox()
@@ -80,5 +85,5 @@ def add_ligatures(font, fira_path, style, ligaturizer_dir):
         if transform != psMat.identity():
             glyph.transform(transform)
         transforms[text] = tuple(transform)
-    print("  Added %d Fira Code ligatures from %s" % (len(added), fira_path.name))
+    print(f"  Added {len(added)} Fira Code ligatures from {fira_path.name}")
     return transforms

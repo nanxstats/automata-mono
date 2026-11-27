@@ -11,14 +11,18 @@ def flat_outline(font, name, cache=None):
     if cache is not None and name in cache:
         return cache[name]
     glyph = font[name]
-    contours = [tuple((round(p.x, 3), round(p.y, 3), bool(p.on_curve)) for p in contour)
-                for contour in glyph.foreground]
+    contours = [
+        tuple((round(p.x, 3), round(p.y, 3), bool(p.on_curve)) for p in contour)
+        for contour in glyph.foreground
+    ]
     for ref_name, (xx, xy, yx, yy, dx, dy), *_ in glyph.references:
         for contour in flat_outline(font, ref_name, cache):
-            contours.append(tuple(
-                (round(xx * x + yx * y + dx, 3), round(xy * x + yy * y + dy, 3), on)
-                for x, y, on in contour
-            ))
+            contours.append(
+                tuple(
+                    (round(xx * x + yx * y + dx, 3), round(xy * x + yy * y + dy, 3), on)
+                    for x, y, on in contour
+                )
+            )
     result = tuple(sorted(contours))
     if cache is not None:
         cache[name] = result
@@ -28,15 +32,20 @@ def flat_outline(font, name, cache=None):
 def snapshot(font):
     """Flattened outline and advance of every glyph, for before/after comparison."""
     cache = {}
-    return {glyph.glyphname: (flat_outline(font, glyph.glyphname, cache), glyph.width)
-            for glyph in font.glyphs()}
+    return {
+        glyph.glyphname: (flat_outline(font, glyph.glyphname, cache), glyph.width)
+        for glyph in font.glyphs()
+    }
 
 
 def referencing(font, names):
     """Glyphs that reference any of `names` directly."""
     names = set(names)
-    return {glyph.glyphname for glyph in font.glyphs()
-            if any(ref[0] in names for ref in glyph.references)}
+    return {
+        glyph.glyphname
+        for glyph in font.glyphs()
+        if any(ref[0] in names for ref in glyph.references)
+    }
 
 
 def contour(points, like):
@@ -58,7 +67,9 @@ def contour(points, like):
 
 def single_contour(glyph):
     if glyph.references or len(glyph.foreground) != 1:
-        raise ValueError("Expected %s to be one contour without references" % glyph.glyphname)
+        raise ValueError(
+            f"Expected {glyph.glyphname} to be one contour without references"
+        )
     return glyph.foreground[0]
 
 

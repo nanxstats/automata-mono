@@ -11,8 +11,10 @@ from .outline import contour, replace_contours, single_contour
 
 class FullCurrencyBars(Customization):
     name = "full-currency-bars"
-    summary = ("$ and ¢: bar runs through the glyph from top to bottom, "
-               "as in JetBrains Mono, IBM Plex Mono, and DM Mono")
+    summary = (
+        "$ and ¢: bar runs through the glyph from top to bottom, "
+        "as in JetBrains Mono, IBM Plex Mono, and DM Mono"
+    )
     # Counters the bar closes: in $, one in each bowl; in ¢, the left of c's.
     COUNTERS = {"dollar": 2, "cent": 1}
     redraws = tuple(COUNTERS)
@@ -38,7 +40,12 @@ class FullCurrencyBars(Customization):
         width = round(bars["dollar"][1] - bars["dollar"][0])
         for name, (left, right, bottom, top) in bars.items():
             left = round((left + right - width) / 2)
-            self._redraw(font[name], style, (left, left + width, bottom, top), self.COUNTERS[name])
+            self._redraw(
+                font[name],
+                style,
+                (left, left + width, bottom, top),
+                self.COUNTERS[name],
+            )
 
     def _bar(self, glyph, style):
         """Left and right edges of the bar, in upright coordinates, and its ends.
@@ -50,12 +57,19 @@ class FullCurrencyBars(Customization):
         points = list(single_contour(glyph))
         lefts, rights = [], []
         for _, before, a, b, after in self._ends(points, name):
-            sides = sorted(((points[a], points[before]), (points[b], points[after])),
-                           key=lambda side: style.upright(side[0].x, side[0].y))
-            for (corner, join), edges in zip(sides, (lefts, rights)):
-                x0, x1 = style.upright(corner.x, corner.y), style.upright(join.x, join.y)
+            sides = sorted(
+                ((points[a], points[before]), (points[b], points[after])),
+                key=lambda side: style.upright(side[0].x, side[0].y),
+            )
+            for (corner, join), edges in zip(sides, (lefts, rights), strict=True):
+                x0, x1 = (
+                    style.upright(corner.x, corner.y),
+                    style.upright(join.x, join.y),
+                )
                 if abs(x0 - x1) > self.LEAN * abs(corner.y - join.y):
-                    raise ValueError("Expected the bar ends of %s to have straight sides" % name)
+                    raise ValueError(
+                        f"Expected the bar ends of {name} to have straight sides"
+                    )
                 edges += [x0, x1]
         bottom, top = min(p.y for p in points), max(p.y for p in points)
         return sum(lefts) / len(lefts), sum(rights) / len(rights), bottom, top
@@ -71,13 +85,15 @@ class FullCurrencyBars(Customization):
         for y in (min(p.y for p in points), max(p.y for p in points)):
             corners = [i for i, point in enumerate(points) if point.y == y]
             if len(corners) != 2 or not all(points[i].on_curve for i in corners):
-                raise ValueError("Expected the bar of %s to end flat" % name)
+                raise ValueError(f"Expected the bar of {name} to end flat")
             a, b = corners if (corners[0] + 1) % count == corners[1] else corners[::-1]
             if (a + 1) % count != b:
-                raise ValueError("Expected the bar of %s to end flat" % name)
+                raise ValueError(f"Expected the bar of {name} to end flat")
             before, after = (a - 1) % count, (b + 1) % count
             if not (points[before].on_curve and points[after].on_curve):
-                raise ValueError("Expected the bar ends of %s to have straight sides" % name)
+                raise ValueError(
+                    f"Expected the bar ends of {name} to have straight sides"
+                )
             yield y, before, a, b, after
 
     def _redraw(self, glyph, style, bar, counters):
@@ -90,25 +106,38 @@ class FullCurrencyBars(Customization):
         original = single_contour(glyph)
         points = list(original)
         ends = {i for _, _, a, b, _ in self._ends(points, name) for i in (a, b)}
-        body = contour([p for i, p in enumerate(points) if i not in ends], like=original)
+        body = contour(
+            [p for i, p in enumerate(points) if i not in ends], like=original
+        )
         left, right, bottom, top = bar
-        corners = [rounded(style.slanted(x, y))
-                   for x, y in ((left, bottom), (right, bottom), (right, top), (left, top))]
+        corners = [
+            rounded(style.slanted(x, y))
+            for x, y in ((left, bottom), (right, bottom), (right, top), (left, top))
+        ]
         if original.isClockwise():
             corners.reverse()
         replace_contours(glyph, [body, contour(corners, like=original)])
         glyph.removeOverlap()
         layer = glyph.foreground
         if len(layer) != 1 + counters:
-            raise ValueError("Expected the bar of %s to close %d counter(s)" % (name, counters))
+            raise ValueError(
+                f"Expected the bar of {name} to close {counters} counter(s)"
+            )
         upstream = {(p.x, p.y) for p in points}
         replace_contours(glyph, [self._without_slivers(c, upstream) for c in layer])
 
         kept = {(p.x, p.y) for c in glyph.foreground for p in c if p.on_curve}
-        outside = [p for i, p in enumerate(points) if i not in ends and p.on_curve
-                   and not left - self.SLIVER <= style.upright(p.x, p.y) <= right + self.SLIVER]
+        outside = [
+            p
+            for i, p in enumerate(points)
+            if i not in ends
+            and p.on_curve
+            and not left - self.SLIVER <= style.upright(p.x, p.y) <= right + self.SLIVER
+        ]
         if any((p.x, p.y) not in kept for p in outside):
-            raise ValueError("Merging the bar into %s changed the outline away from it" % name)
+            raise ValueError(
+                f"Merging the bar into {name} changed the outline away from it"
+            )
 
     def _without_slivers(self, outline, upstream):
         """Drop body points next to where a bar edge crosses the body.
@@ -134,15 +163,21 @@ class FullCurrencyBars(Customization):
                         between.append(other)
                         other = (other + direction) % count
                     neighbor = points[other]
-                    if neighbor.on_curve and not crossing(neighbor) and \
-                            math.dist((point.x, point.y), (neighbor.x, neighbor.y)) < self.SLIVER:
+                    if (
+                        neighbor.on_curve
+                        and not crossing(neighbor)
+                        and math.dist((point.x, point.y), (neighbor.x, neighbor.y))
+                        < self.SLIVER
+                    ):
                         sliver = set(between + [other])
                         break
                 if sliver:
                     break
             if not sliver:
                 break
-            points = [point for index, point in enumerate(points) if index not in sliver]
+            points = [
+                point for index, point in enumerate(points) if index not in sliver
+            ]
         result = fontforge.contour()
         result.is_quadratic = outline.is_quadratic
         for point in points:

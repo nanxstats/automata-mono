@@ -8,7 +8,9 @@ from .outline import contour, replace_contours, single_contour
 
 class LongerBrackets(Customization):
     name = "longer-brackets"
-    summary = "[ and ]: arms extend a constant 0.30 of the cell past the stem in every weight"
+    summary = (
+        "[ and ]: arms extend a constant 0.30 of the cell past the stem in every weight"
+    )
     redraws = ("bracketleft", "bracketright")
 
     # Arm length past the inner edge of the stem, as a fraction of the cell.
@@ -27,23 +29,29 @@ class LongerBrackets(Customization):
             levels = {}
             for index, point in enumerate(points):
                 if not point.on_curve:
-                    raise ValueError("Expected %s to be drawn with straight edges" % name)
+                    raise ValueError(f"Expected {name} to be drawn with straight edges")
                 levels.setdefault(point.y, []).append(index)
-            if len(points) != 8 or len(levels) != 4 or any(len(pair) != 2 for pair in levels.values()):
-                raise ValueError("Expected %s to be a stem with two arms" % name)
+            if (
+                len(points) != 8
+                or len(levels) != 4
+                or any(len(pair) != 2 for pair in levels.values())
+            ):
+                raise ValueError(f"Expected {name} to be a stem with two arms")
             # Each height has one point on the stem side and one at an arm tip.
             # The arms' inner edges are the middle two heights.
             heights = sorted(levels)
             tips = {}
             for y, pair in levels.items():
-                stem_side, tip = sorted(pair, key=lambda index: direction * points[index].x)
+                stem_side, tip = sorted(
+                    pair, key=lambda index: direction * points[index].x
+                )
                 tips[y] = (tip, points[tip].x - points[stem_side].x)
             for outer, inner in ((heights[0], heights[1]), (heights[3], heights[2])):
                 # Move both tip points of the arm by the same amount, so the
                 # tip keeps its slant in italics.
                 shift = direction * round(self.ARM * cell) - tips[inner][1]
                 if direction * shift <= 0:
-                    raise ValueError("Expected %s arms shorter than the target" % name)
+                    raise ValueError(f"Expected {name} arms shorter than the target")
                 for y in (outer, inner):
                     index = tips[y][0]
                     x = points[index].x + shift

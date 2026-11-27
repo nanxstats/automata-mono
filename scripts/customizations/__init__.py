@@ -28,4 +28,10 @@ CUSTOMIZATIONS = (
     FullCurrencyBars(),
 )
 
-__all__ = ["CUSTOMIZATIONS", "Customization", "CustomizationError", "Style", "apply_customizations"]
+__all__ = [
+    "CUSTOMIZATIONS",
+    "Customization",
+    "CustomizationError",
+    "Style",
+    "apply_customizations",
+]

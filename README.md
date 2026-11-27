@@ -271,11 +271,12 @@ class ExampleCustomization(Customization):
     name = "example"
     summary = "What changes and why"
     redraws = ("zero",)  # glyphs whose outlines redraw() replaces
-    inherits = ()        # composites using them that should follow
-    preserves = ()       # composites using them that keep the old design
+    inherits = ()  # composites using them that should follow
+    preserves = ()  # composites using them that keep the old design
 
     def redraw(self, font, style):
-        ...  # edit font["zero"]; style has em, slant, descender
+        # Edit font["zero"]; style has em, slant, descender.
+        ...
 ```
 
 Add an instance to `CUSTOMIZATIONS` in `scripts/customizations/__init__.py`.

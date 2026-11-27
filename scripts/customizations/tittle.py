@@ -7,7 +7,10 @@ from .base import Customization
 
 class Tittles(Customization):
     name = "tittles"
-    summary = "Dots on i and j: larger, at a constant gap above the stem, slightly left of center"
+    summary = (
+        "Dots on i and j: larger, at a constant gap above the stem, "
+        "slightly left of center"
+    )
     # Glyphs that draw their own i/j dots, with dot counts. Accented forms
     # (í, ï, ĵ, ...) use the dotless letters with an accent and are unaffected.
     DOTS = {"i": 1, "j": 1, "iogonek": 1, "ij": 2}
@@ -40,9 +43,13 @@ class Tittles(Customization):
             glyph = font[name]
             stem_top, dots = self._split(glyph)
             if len(dots) != count:
-                raise ValueError("Expected %d dot(s) on %s" % (count, name))
+                raise ValueError(f"Expected {count} dot(s) on {name}")
             layer = glyph.foreground
-            stems = self._stems([layer[i] for i in range(len(layer)) if i not in dots], stem_top, upright)
+            stems = self._stems(
+                [layer[i] for i in range(len(layer)) if i not in dots],
+                stem_top,
+                upright,
+            )
             for index in dots:
                 dot = layer[index]
                 measured = dot.dup()
@@ -51,7 +58,7 @@ class Tittles(Customization):
                 center = (left + right) / 2
                 stem = min(stems, key=lambda span: abs(sum(span) / 2 - center))
                 if not stem[0] < center < stem[1]:
-                    raise ValueError("Expected each dot of %s above a stem" % name)
+                    raise ValueError(f"Expected each dot of {name} above a stem")
                 lift = stem_top + gap - bottom
                 if abs(lift) > gap:
                     raise ValueError("Unexpected dot position on " + name)
@@ -72,11 +79,19 @@ class Tittles(Customization):
     def _split(glyph):
         """Top of the letter body and indices of the contours above it (dots)."""
         if glyph.references:
-            raise ValueError("Expected %s to be drawn without references" % glyph.glyphname)
+            raise ValueError(
+                f"Expected {glyph.glyphname} to be drawn without references"
+            )
         layer = glyph.foreground
         body_top = min(contour.boundingBox()[3] for contour in layer)
-        dots = [index for index, contour in enumerate(layer) if contour.boundingBox()[1] > body_top]
-        return max(layer[i].boundingBox()[3] for i in range(len(layer)) if i not in dots), dots
+        dots = [
+            index
+            for index, contour in enumerate(layer)
+            if contour.boundingBox()[1] > body_top
+        ]
+        return max(
+            layer[i].boundingBox()[3] for i in range(len(layer)) if i not in dots
+        ), dots
 
     @staticmethod
     def _stems(body, stem_top, upright):
@@ -91,10 +106,10 @@ class Tittles(Customization):
             contour = contour.dup()
             contour.transform(upright)
             points = [(point.x, point.y) for point in contour if point.on_curve]
-            for (x1, y1), (x2, y2) in zip(points, points[1:] + points[:1]):
+            for (x1, y1), (x2, y2) in zip(points, points[1:] + points[:1], strict=True):
                 if (y1 - height) * (y2 - height) < 0:
                     crossings.append(x1 + (height - y1) * (x2 - x1) / (y2 - y1))
         crossings.sort()
         if not crossings or len(crossings) % 2:
             raise ValueError("Could not measure the stems")
-        return list(zip(crossings[::2], crossings[1::2]))
+        return list(zip(crossings[::2], crossings[1::2], strict=True))

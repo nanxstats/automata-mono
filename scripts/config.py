@@ -56,12 +56,24 @@ def split_style(style):
 
 
 def upstream_font(roboto_dir, style):
-    return Path(roboto_dir) / "fonts" / "ttf" / (UPSTREAM_POSTSCRIPT_FAMILY + "-" + style + ".ttf")
+    return (
+        Path(roboto_dir)
+        / "fonts"
+        / "ttf"
+        / (UPSTREAM_POSTSCRIPT_FAMILY + "-" + style + ".ttf")
+    )
 
 
 def fira_font(ligaturizer_dir, style):
     weight = FIRA_WEIGHTS[split_style(style)[0]]
-    return Path(ligaturizer_dir) / "fonts" / "fira" / "distr" / "otf" / ("FiraCode-" + weight + ".otf")
+    return (
+        Path(ligaturizer_dir)
+        / "fonts"
+        / "fira"
+        / "distr"
+        / "otf"
+        / ("FiraCode-" + weight + ".otf")
+    )
 
 
 def output_name(style):
@@ -77,18 +89,24 @@ def style_names(style, family=FAMILY, postscript_family=POSTSCRIPT_FAMILY):
     weight, italic = split_style(style)
     names = {6: postscript_family + "-" + style}
     if weight in ("Regular", "Bold"):
-        subfamily = {(False, False): "Regular", (False, True): "Italic",
-                     (True, False): "Bold", (True, True): "Bold Italic"}[weight == "Bold", italic]
+        subfamily = {
+            (False, False): "Regular",
+            (False, True): "Italic",
+            (True, False): "Bold",
+            (True, True): "Bold Italic",
+        }[weight == "Bold", italic]
         names.update({1: family, 2: subfamily, 4: family + " " + subfamily})
     else:
         typographic = weight + (" Italic" if italic else "")
-        names.update({
-            1: family + " " + weight,
-            2: "Italic" if italic else "Regular",
-            4: family + " " + typographic,
-            16: family,
-            17: typographic,
-        })
+        names.update(
+            {
+                1: family + " " + weight,
+                2: "Italic" if italic else "Regular",
+                4: family + " " + typographic,
+                16: family,
+                17: typographic,
+            }
+        )
     return names
 
 
@@ -112,5 +130,9 @@ def load_ligature_specs(ligaturizer_dir):
     }
     stale = EXCLUDED_LIGATURES - specs.keys()
     if stale:
-        raise ValueError("Ligaturizer no longer offers excluded ligatures: %s" % sorted(stale))
-    return {text: spec for text, spec in specs.items() if text not in EXCLUDED_LIGATURES}
+        raise ValueError(
+            f"Ligaturizer no longer offers excluded ligatures: {sorted(stale)}"
+        )
+    return {
+        text: spec for text, spec in specs.items() if text not in EXCLUDED_LIGATURES
+    }

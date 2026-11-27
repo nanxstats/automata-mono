@@ -1,7 +1,7 @@
 """The customization contract and the driver that enforces it."""
 
-from dataclasses import dataclass
 import math
+from dataclasses import dataclass
 
 from .outline import referencing, snapshot
 
@@ -82,18 +82,27 @@ def _apply(font, style, customization):
     name = customization.name
 
     def fail(message, glyphs):
-        raise CustomizationError("%s (%s): %s: %s" % (name, style.name, message, ", ".join(sorted(glyphs))))
+        raise CustomizationError(
+            f"{name} ({style.name}): {message}: {', '.join(sorted(glyphs))}"
+        )
 
-    redraws, inherits, preserves = (set(getattr(customization, key))
-                                    for key in ("redraws", "inherits", "preserves"))
+    redraws, inherits, preserves = (
+        set(getattr(customization, key)) for key in ("redraws", "inherits", "preserves")
+    )
     missing = {glyph for glyph in redraws | inherits | preserves if glyph not in font}
     if missing:
         fail("glyphs not in font", missing)
     dependents = referencing(font, redraws) - redraws
     if dependents - inherits - preserves:
-        fail("unclassified composites reference redrawn glyphs", dependents - inherits - preserves)
+        fail(
+            "unclassified composites reference redrawn glyphs",
+            dependents - inherits - preserves,
+        )
     if (inherits | preserves) - dependents:
-        fail("declared composites do not reference redrawn glyphs", (inherits | preserves) - dependents)
+        fail(
+            "declared composites do not reference redrawn glyphs",
+            (inherits | preserves) - dependents,
+        )
 
     before = snapshot(font)
     for glyph_name in preserves:
@@ -121,7 +130,7 @@ def _apply(font, style, customization):
     if changed - reachable:
         fail("undeclared glyphs changed", changed - reachable)
 
-    print("  %s: %s" % (name, ", ".join(sorted(changed))))
+    print(f"  {name}: {', '.join(sorted(changed))}")
     return {
         "name": name,
         "summary": customization.summary,
