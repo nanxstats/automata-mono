@@ -40,7 +40,7 @@
 - Current customizations: straight comma (Cyrillic tailed letters keep the
   upstream comma), i/j dots 15% larger at a 0.11 em gap and 0.009 em left
   of the stem center, straight-tail y, t stem at 0.86 of the way from
-  x-height to cap height.
+  x-height to cap height, bracket arms 0.30 of the cell past the stem.
 
 ## Ligatures
 

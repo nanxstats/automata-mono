@@ -15,6 +15,7 @@ glyphs. Everything else is Roboto Mono, unchanged.
 | `i` `j` | Small dots; gap shrinks from 0.116 em (Thin) to 0.063 em (Bold) | Dots 15% larger, 0.11 em above the stem in every weight, slightly left of center |
 | `y` | Hooked tail | Straight tail cut flat at the descender, as in JetBrains Mono and [DM Mono](https://github.com/googlefonts/dm-mono) |
 | `t` | Stem rises 70% of the way from x-height to cap height (78% in Thin) | Stem rises 86% of the way in every weight, as in JetBrains Mono |
+| `[` `]` | Arms extend 0.18 of the cell past the stem in Regular, shrinking to 0.14 in Bold | Arms extend 0.30 of the cell in every weight |
 
 Details:
 
@@ -51,6 +52,14 @@ Details:
   reference is the cap height because Roboto's ascenders rise above it, so t
   stays shorter than the capitals. The crossbar is unchanged. ŧ, ť, ţ, and ț
   follow; the apostrophe of ť keeps its clearance.
+- **Brackets.** Short arms make `[` and `]` hard to tell from `|` and `l`
+  at small sizes. Roboto's arms are also shorter in heavier weights, where
+  they get stubby. The arms now extend 0.30 of the cell past the stem in
+  every weight: 369 units upright. That is two-thirds longer than before in
+  Regular and more than twice as long in Bold. It sits between JetBrains
+  Mono (about 0.26) and IBM Plex Mono and Source Code Pro (about 0.35). The
+  stem, the arm thickness, and the height are unchanged. Italic arm tips
+  keep their slant.
 
 Italics get the same changes, slanted to Roboto Mono Italic's 10-degree angle.
 
