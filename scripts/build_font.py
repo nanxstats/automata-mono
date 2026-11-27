@@ -10,8 +10,8 @@ Upstream checkouts are only read.
 import argparse
 import json
 import os
-from pathlib import Path
 import tempfile
+from pathlib import Path
 
 import fontforge
 
@@ -30,10 +30,14 @@ def build(args):
         customizations = apply_customizations(font, style, CUSTOMIZATIONS)
         ligatures = add_ligatures(font, fira, style, args.ligaturizer_dir)
         args.output.parent.mkdir(parents=True, exist_ok=True)
-        with tempfile.TemporaryDirectory(prefix=".automata-", dir=args.output.parent) as staging:
+        with tempfile.TemporaryDirectory(
+            prefix=".automata-", dir=args.output.parent
+        ) as staging:
             temporary = Path(staging) / args.output.name
             # Hinting is redone by ttfautohint; finalize.py rewrites names.
-            font.generate(str(temporary), flags=("opentype", "omit-instructions", "no-FFTM-table"))
+            font.generate(
+                str(temporary), flags=("opentype", "omit-instructions", "no-FFTM-table")
+            )
             os.replace(temporary, args.output)
     finally:
         font.close()

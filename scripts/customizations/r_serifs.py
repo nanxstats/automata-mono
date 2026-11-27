@@ -22,8 +22,10 @@ class _Serifs:
 
 class SlabR(Customization):
     name = "slab-r"
-    summary = ("r: flag at the x-height and foot bar on the baseline, drawn like i's, "
-               "as in IBM Plex Mono, DM Mono, and Geist Mono")
+    summary = (
+        "r: flag at the x-height and foot bar on the baseline, drawn like i's, "
+        "as in IBM Plex Mono, DM Mono, and Geist Mono"
+    )
     redraws = ("r",)
     inherits = ("racute", "rcaron", "rcommaaccent")  # ŕ ř ŗ
 
@@ -57,8 +59,11 @@ class SlabR(Customization):
             # The accents keep their place relative to the stem. Upstream's
             # sit where IBM Plex Mono, DM Mono, and Geist Mono put theirs.
             glyph = font[name]
-            if sorted(ref[0] == "r" for ref in glyph.references) != [False, True] or glyph.foreground:
-                raise ValueError("Expected %s to be r with one accent" % name)
+            if (
+                sorted(ref[0] == "r" for ref in glyph.references) != [False, True]
+                or glyph.foreground
+            ):
+                raise ValueError(f"Expected {name} to be r with one accent")
             references = []
             for ref_name, (xx, xy, yx, yy, dx, dy), *_ in glyph.references:
                 if ref_name != "r":
@@ -70,7 +75,9 @@ class SlabR(Customization):
     def _reach(glyph, style):
         """How far right a glyph reaches, in upright coordinates."""
         if glyph.references:
-            raise ValueError("Expected %s to be drawn without references" % glyph.glyphname)
+            raise ValueError(
+                f"Expected {glyph.glyphname} to be drawn without references"
+            )
         layer = glyph.foreground.dup()
         layer.transform((1, 0, -style.slant, 1, 0, 0))
         return layer.boundingBox()[2]
@@ -81,13 +88,21 @@ class SlabR(Customization):
         if glyph.references:
             raise ValueError("Expected i to be drawn without references")
         standing = [c for c in glyph.foreground if c.boundingBox()[1] == 0]
-        if len(standing) != 1 or len(standing[0]) != 10 or not all(p.on_curve for p in standing[0]):
+        if (
+            len(standing) != 1
+            or len(standing[0]) != 10
+            or not all(p.on_curve for p in standing[0])
+        ):
             raise ValueError("Expected i to be a stem with a flag and a foot")
         levels = {}
         for point in standing[0]:
             levels.setdefault(point.y, []).append(style.upright(point.x, point.y))
         heights = sorted(levels)
-        if len(heights) != 4 or heights[0] != 0 or [len(levels[y]) for y in heights] != [2, 4, 2, 2]:
+        if (
+            len(heights) != 4
+            or heights[0] != 0
+            or [len(levels[y]) for y in heights] != [2, 4, 2, 2]
+        ):
             raise ValueError("Expected i to be a stem with a flag and a foot")
         _, foot_top, flag_bottom, top = heights
         flag_left, stem_left_high = sorted(levels[flag_bottom])
@@ -121,7 +136,10 @@ class SlabR(Customization):
             return style.upright(points[index].x, points[index].y), points[index].y
 
         baseline = [i for i, p in enumerate(points) if p.on_curve and p.y == 0]
-        if len(baseline) != 2 or (baseline[1] - baseline[0]) % count not in (1, count - 1):
+        if len(baseline) != 2 or (baseline[1] - baseline[0]) % count not in (
+            1,
+            count - 1,
+        ):
             raise ValueError("Expected r to stand on a stem cut flat")
         bottom_left, bottom_right = sorted(baseline, key=lambda i: upright(i)[0])
         # `step` walks from the stem's bottom left to its bottom right, then
@@ -131,11 +149,23 @@ class SlabR(Customization):
         def at(index, steps):
             return (index + steps * step) % count
 
-        top_left, top_right, inner = at(bottom_left, -1), at(bottom_left, -2), at(bottom_right, 1)
-        if any(not points[i].on_curve or points[i].y != serifs.top for i in (top_left, top_right)):
+        top_left, top_right, inner = (
+            at(bottom_left, -1),
+            at(bottom_left, -2),
+            at(bottom_right, 1),
+        )
+        if any(
+            not points[i].on_curve or points[i].y != serifs.top
+            for i in (top_left, top_right)
+        ):
             raise ValueError("Expected the stem of r to be cut flat at the top of i")
-        if not points[inner].on_curve or not style.x_height / 3 < points[inner].y < style.x_height:
-            raise ValueError("Expected the shoulder of r to leave the stem's right edge")
+        if (
+            not points[inner].on_curve
+            or not style.x_height / 3 < points[inner].y < style.x_height
+        ):
+            raise ValueError(
+                "Expected the shoulder of r to leave the stem's right edge"
+            )
         # Above the shoulder, the stem's right edge runs from the stem top
         # down to where the shoulder's outer curve meets it.
         stem = [top_right]
@@ -145,11 +175,19 @@ class SlabR(Customization):
         left = Line(upright(top_left), upright(bottom_left))
         right = Line(upright(bottom_right), upright(inner))
         middle = style.x_height / 2
-        if len(stem) < 6 or any(not left.x_at(points[i].y) <= upright(i)[0] <= right.x_at(points[i].y) + 2
-                                for i in stem[1:-4]):
-            raise ValueError("Expected the shoulder of r to join the stem below its top")
+        if len(stem) < 6 or any(
+            not left.x_at(points[i].y) <= upright(i)[0] <= right.x_at(points[i].y) + 2
+            for i in stem[1:-4]
+        ):
+            raise ValueError(
+                "Expected the shoulder of r to join the stem below its top"
+            )
 
-        shift = round(serifs.center - self.STEM * cell - (left.x_at(middle) + right.x_at(middle)) / 2)
+        shift = round(
+            serifs.center
+            - self.STEM * cell
+            - (left.x_at(middle) + right.x_at(middle)) / 2
+        )
         shoulder = [i for i in range(count) if i not in stem]
         end = self._reach(glyph, style)
         join = upright(inner)[0]
@@ -167,16 +205,24 @@ class SlabR(Customization):
             neighbors = points[(index - 1) % count], points[(index + 1) % count]
             # Keep on-curve points that sit midway between two off-curve
             # points implied, as upstream has them.
-            if point.on_curve and not any(p.on_curve for p in neighbors) and \
-                    (point.x, point.y) == ((neighbors[0].x + neighbors[1].x) / 2,
-                                           (neighbors[0].y + neighbors[1].y) / 2):
+            if (
+                point.on_curve
+                and not any(p.on_curve for p in neighbors)
+                and (point.x, point.y)
+                == (
+                    (neighbors[0].x + neighbors[1].x) / 2,
+                    (neighbors[0].y + neighbors[1].y) / 2,
+                )
+            ):
                 continue
             x, y = rounded(narrowed(index))
             moved[index] = fontforge.point(x, y, point.on_curve)
         for index in shoulder:
             if index not in moved:
                 before, after = moved[(index - 1) % count], moved[(index + 1) % count]
-                moved[index] = fontforge.point((before.x + after.x) / 2, (before.y + after.y) / 2, True)
+                moved[index] = fontforge.point(
+                    (before.x + after.x) / 2, (before.y + after.y) / 2, True
+                )
         for index in stem:
             point = points[index]
             if index not in (top_left, bottom_left, bottom_right):
@@ -188,9 +234,15 @@ class SlabR(Customization):
         end_left = left.x_at(flag_bottom) - self.FLAG * serifs.flag
         foot_right = right.x_at(foot_top) + self.FOOT * (left.x_at(foot_top) - end_left)
         corners = [
-            (end_left, serifs.top), (end_left, flag_bottom), (left.x_at(flag_bottom), flag_bottom),
-            (left.x_at(foot_top), foot_top), (end_left, foot_top), (end_left, 0),
-            (foot_right, 0), (foot_right, foot_top), (right.x_at(foot_top), foot_top),
+            (end_left, serifs.top),
+            (end_left, flag_bottom),
+            (left.x_at(flag_bottom), flag_bottom),
+            (left.x_at(foot_top), foot_top),
+            (end_left, foot_top),
+            (end_left, 0),
+            (foot_right, 0),
+            (foot_right, foot_top),
+            (right.x_at(foot_top), foot_top),
         ]
         outline = [moved[inner]]
         index = at(inner, 1)

@@ -14,7 +14,10 @@ from fontTools.ttLib import TTFont
 
 from config import UPSTREAM_FAMILY, URL, VENDOR_ID, VERSION, output_name, style_names
 
-FIRA_COPYRIGHT = "Programming ligatures from Fira Code. Copyright (c) 2014, The Fira Code Project Authors."
+FIRA_COPYRIGHT = (
+    "Programming ligatures from Fira Code. "
+    "Copyright (c) 2014, The Fira Code Project Authors."
+)
 WINDOWS_ENGLISH = (3, 1, 0x409)
 # Names that describe Roboto Mono's publisher rather than this font.
 DROPPED_NAMES = (7,)  # trademark
@@ -38,7 +41,10 @@ def drop_synthesized_layout(font, upstream):
         gdef = font["GDEF"].table
         classes = gdef.GlyphClassDef.classDefs if gdef.GlyphClassDef else {}
         carets = gdef.LigCaretList.LigGlyphCount if gdef.LigCaretList else 0
-        extra = any(getattr(gdef, key, None) for key in ("AttachList", "MarkAttachClassDef", "MarkGlyphSetsDef"))
+        extra = any(
+            getattr(gdef, key, None)
+            for key in ("AttachList", "MarkAttachClassDef", "MarkGlyphSetsDef")
+        )
         if set(classes) - added or set(classes.values()) - {1} or carets or extra:
             raise ValueError("FontForge wrote GDEF data beyond spacer glyph classes")
         del font["GDEF"]
@@ -79,13 +85,18 @@ def names(style, upstream, fira):
         for record in upstream["name"].names
         if (record.platformID, record.platEncID, record.langID) == WINDOWS_ENGLISH
     }
-    result = {key: value for key, value in existing.items()
-              if key not in DROPPED_NAMES and key not in (1, 2, 4, 6, 16, 17)}
+    result = {
+        key: value
+        for key, value in existing.items()
+        if key not in DROPPED_NAMES and key not in (1, 2, 4, 6, 16, 17)
+    }
     result.update(style_names(style))
     result[0] = existing[0] + "\n" + FIRA_COPYRIGHT
-    result[3] = "%s;%s;%s" % (VERSION, VENDOR_ID, output_name(style))
-    result[5] = "Version %s; %s %.3f; Fira Code %.3f" % (
-        VERSION, UPSTREAM_FAMILY, upstream["head"].fontRevision, fira["head"].fontRevision)
+    result[3] = f"{VERSION};{VENDOR_ID};{output_name(style)}"
+    result[5] = (
+        f"Version {VERSION}; {UPSTREAM_FAMILY} {upstream['head'].fontRevision:.3f}; "
+        f"Fira Code {fira['head'].fontRevision:.3f}"
+    )
     result[11] = URL
     return result
 
@@ -99,7 +110,9 @@ def finalize(args):
 
     drop_synthesized_layout(font, upstream)
     # FontForge also adds a legacy Mac cmap subtable.
-    font["cmap"].tables = [table for table in font["cmap"].tables if table.platformID != 1]
+    font["cmap"].tables = [
+        table for table in font["cmap"].tables if table.platformID != 1
+    ]
     widen_null_glyph(font, upstream)
     sync_side_bearings(font)
     # ttfautohint writes fresh hinting tables; FontForge kept the old ones.
@@ -118,7 +131,8 @@ def finalize(args):
     # FontForge shifts the underline on export; upstream values are correct.
     post.underlinePosition = source_post.underlinePosition
     post.underlineThickness = source_post.underlineThickness
-    post.isFixedPitch = 1  # Upstream leaves this unset although every glyph shares one advance.
+    # Upstream leaves this unset although every glyph shares one advance.
+    post.isFixedPitch = 1
     os2 = font["OS/2"]
     os2.achVendID = VENDOR_ID
     os2.usMaxContext = maxCtxFont(font)
@@ -134,7 +148,9 @@ def finalize(args):
 
 def parse_args():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--manifest", type=Path, required=True, help="build manifest from build_font.py")
+    parser.add_argument(
+        "--manifest", type=Path, required=True, help="build manifest from build_font.py"
+    )
     parser.add_argument("--input", type=Path, required=True, help="FontForge output")
     parser.add_argument("--output", type=Path, required=True)
     return parser.parse_args()

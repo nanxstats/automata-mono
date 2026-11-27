@@ -9,15 +9,37 @@ from .outline import contour, replace_contours
 
 class StraightTailA(Customization):
     name = "straight-a"
-    summary = ("a: stem runs straight to a flat foot on the baseline, "
-               "as in JetBrains Mono, DM Mono, and Source Code Pro")
+    summary = (
+        "a: stem runs straight to a flat foot on the baseline, "
+        "as in JetBrains Mono, DM Mono, and Source Code Pro"
+    )
     redraws = ("a", "aogonek")  # ą draws its own copy of the a outline
     inherits = (
-        "aacute", "abreve", "acircumflex", "adieresis", "agrave",  # á ă â ä à
-        "amacron", "aring", "aringacute", "atilde",  # ā å ǻ ã
-        "uni1E01", "uni1EA1", "uni1EA3", "uni1EA5", "uni1EA7", "uni1EA9",  # ḁ ạ ả ấ ầ ẩ
-        "uni1EAB", "uni1EAD", "uni1EAF", "uni1EB1", "uni1EB3", "uni1EB5", "uni1EB7",  # ẫ ậ ắ ằ ẳ ẵ ặ
-        "uni0430", "uni04D1", "uni04D3",  # Cyrillic а ӑ ӓ
+        "aacute",  # á
+        "abreve",  # ă
+        "acircumflex",  # â
+        "adieresis",  # ä
+        "agrave",  # à
+        "amacron",  # ā
+        "aring",  # å
+        "aringacute",  # ǻ
+        "atilde",  # ã
+        "uni1E01",  # ḁ
+        "uni1EA1",  # ạ
+        "uni1EA3",  # ả
+        "uni1EA5",  # ấ
+        "uni1EA7",  # ầ
+        "uni1EA9",  # ẩ
+        "uni1EAB",  # ẫ
+        "uni1EAD",  # ậ
+        "uni1EAF",  # ắ
+        "uni1EB1",  # ằ
+        "uni1EB3",  # ẳ
+        "uni1EB5",  # ẵ
+        "uni1EB7",  # ặ
+        "uni0430",  # Cyrillic а
+        "uni04D1",  # Cyrillic ӑ
+        "uni04D3",  # Cyrillic ӓ
     )
 
     # The foot starts where the bowl meets the stem. Upstream, that is up to
@@ -43,11 +65,15 @@ class StraightTailA(Customization):
         """
         name = glyph.glyphname
         if glyph.references:
-            raise ValueError("Expected %s to be drawn without references" % name)
+            raise ValueError(f"Expected {name} to be drawn without references")
         layer = glyph.foreground
-        standing = [i for i in range(len(layer)) if any(p.on_curve and p.y == 0 for p in layer[i])]
+        standing = [
+            i
+            for i in range(len(layer))
+            if any(p.on_curve and p.y == 0 for p in layer[i])
+        ]
         if len(standing) != 1 or len(layer) != 2:
-            raise ValueError("Expected %s to be an outline and a counter" % name)
+            raise ValueError(f"Expected {name} to be an outline and a counter")
         original, counter = layer[standing[0]], layer[1 - standing[0]]
         points = list(original)
         count = len(points)
@@ -74,7 +100,7 @@ class StraightTailA(Customization):
             if not 0 <= points[corner].y < points[bottom].y:
                 raise ValueError("Unexpected spur on " + name)
         if outer.offset(xy(corner)) <= 0:
-            raise ValueError("Expected the spur of %s to stick out past the stem" % name)
+            raise ValueError(f"Expected the spur of {name} to stick out past the stem")
         # Next comes the foot's left corner, or the end of the ogonek.
         left = step(corner, -up)
         if not (points[left].on_curve and points[left].y == 0):
@@ -88,19 +114,28 @@ class StraightTailA(Customization):
             if points[junction].y > 0 and points[following].y < points[junction].y:
                 break
             junction = following
-        if not points[junction].on_curve or not 0 < points[junction].y < points[bottom].y:
-            raise ValueError("Expected the bowl of %s to meet the stem above the foot" % name)
+        if (
+            not points[junction].on_curve
+            or not 0 < points[junction].y < points[bottom].y
+        ):
+            raise ValueError(
+                f"Expected the bowl of {name} to meet the stem above the foot"
+            )
         foot = -outer.offset(xy(junction))
         stem = -outer.offset(self._midpoint(counter, self._longest_edge(counter)))
         if not self.MIN_FOOT * stem <= foot <= stem + 1:
-            raise ValueError("Expected the bowl of %s to meet the stem at its inner edge" % name)
+            raise ValueError(
+                f"Expected the bowl of {name} to meet the stem at its inner edge"
+            )
         inner = outer.shifted(-foot)
         outer_corner = rounded((outer.x_at(0), 0))
 
         if not ogonek:
             foot_points = [rounded((inner.x_at(0), 0)), outer_corner]
         else:
-            foot_points = self._ogonek(points, junction, left, up, inner, outer_corner, name)
+            foot_points = self._ogonek(
+                points, junction, left, up, inner, outer_corner, name
+            )
 
         kept = []
         index = top
@@ -111,7 +146,9 @@ class StraightTailA(Customization):
         if up < 0:
             outline.reverse()
         new = contour(outline, like=original)
-        replace_contours(glyph, [new if i == standing[0] else layer[i] for i in range(len(layer))])
+        replace_contours(
+            glyph, [new if i == standing[0] else layer[i] for i in range(len(layer))]
+        )
 
     @staticmethod
     def _ogonek(points, junction, end, up, inner, outer_corner, name):
@@ -141,9 +178,11 @@ class StraightTailA(Customization):
             index = (index + up) % count
         first, control, second = ((point.x, point.y) for point in ogonek[:3])
         if not (ogonek[0].on_curve and not ogonek[1].on_curve and ogonek[2].on_curve):
-            raise ValueError("Expected the ogonek of %s to start with a curve" % name)
+            raise ValueError(f"Expected the ogonek of {name} to start with a curve")
         if inner.offset(first) <= 0 or inner.offset(second) >= 0:
-            raise ValueError("Expected the ogonek of %s to cross the stem's inner edge" % name)
+            raise ValueError(
+                f"Expected the ogonek of {name} to cross the stem's inner edge"
+            )
         t = inner.crossing(first, control, second)
         cut = rounded(quadratic(first, control, second, t))
         control = rounded(lerp(control, second, t))
@@ -154,8 +193,11 @@ class StraightTailA(Customization):
         """Indices of the ends of the straight edge that spans the most height."""
         points = list(outline)
         count = len(points)
-        edges = [(i, (i + 1) % count) for i in range(count)
-                 if points[i].on_curve and points[(i + 1) % count].on_curve]
+        edges = [
+            (i, (i + 1) % count)
+            for i in range(count)
+            if points[i].on_curve and points[(i + 1) % count].on_curve
+        ]
         if not edges:
             raise ValueError("Expected straight edges")
         return max(edges, key=lambda edge: abs(points[edge[1]].y - points[edge[0]].y))

@@ -52,7 +52,7 @@ class Line:
 
 
 def lerp(a, b, t):
-    return tuple(u + (v - u) * t for u, v in zip(a, b))
+    return tuple(u + (v - u) * t for u, v in zip(a, b, strict=True))
 
 
 def quadratic(p0, p1, p2, t):

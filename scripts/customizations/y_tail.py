@@ -7,12 +7,23 @@ from .outline import contour, replace_contours, single_contour
 
 class StraightTailY(Customization):
     name = "straight-y"
-    summary = "y: straight tail cut flat at the descender, as in JetBrains Mono and DM Mono"
+    summary = (
+        "y: straight tail cut flat at the descender, as in JetBrains Mono and DM Mono"
+    )
     redraws = ("y",)
     inherits = (
-        "yacute", "ycircumflex", "ydieresis", "ygrave",  # ý ŷ ÿ ỳ
-        "uni1EF5", "uni1EF7", "uni1EF9",  # ỵ ỷ ỹ
-        "uni0443", "uni045E", "uni04EF", "uni04F1", "uni04F3",  # Cyrillic у ў ӯ ӱ ӳ
+        "yacute",  # ý
+        "ycircumflex",  # ŷ
+        "ydieresis",  # ÿ
+        "ygrave",  # ỳ
+        "uni1EF5",  # ỵ
+        "uni1EF7",  # ỷ
+        "uni1EF9",  # ỹ
+        "uni0443",  # Cyrillic у
+        "uni045E",  # Cyrillic ў
+        "uni04EF",  # Cyrillic ӯ
+        "uni04F1",  # Cyrillic ӱ
+        "uni04F3",  # Cyrillic ӳ
     )
 
     TOLERANCE = 4
@@ -36,8 +47,10 @@ class StraightTailY(Customization):
             # Some italics place the right arm's corners a unit or two lower.
             return points[index].y >= top - self.TOLERANCE
 
-        corners = sorted((i for i, point in enumerate(points) if point.on_curve and at_top(i)),
-                         key=lambda i: points[i].x)
+        corners = sorted(
+            (i for i, point in enumerate(points) if point.on_curve and at_top(i)),
+            key=lambda i: points[i].x,
+        )
         if len(corners) != 4:
             raise ValueError("Expected y to have four corners at the x-height")
         top_left, top_right = corners[0], corners[-1]
