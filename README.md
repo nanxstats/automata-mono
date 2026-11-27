@@ -17,6 +17,7 @@ glyphs. Everything else is Roboto Mono, unchanged.
 | `t` | Stem rises 70% of the way from x-height to cap height (78% in Thin) | Stem rises 86% of the way in every weight, as in JetBrains Mono |
 | `[` `]` | Arms extend 0.18 of the cell past the stem in Regular, shrinking to 0.14 in Bold | Arms extend 0.30 of the cell in every weight |
 | `a` | Stem bends right into a small spur at the baseline | Stem runs straight down to a flat foot, as in JetBrains Mono, DM Mono, and [Source Code Pro](https://github.com/adobe-fonts/source-code-pro) |
+| `%` | Short slash across the middle of the glyph, ends cut square to the stroke | Slash runs from the baseline to the cap height across the rings, cut flat like `/`, as in JetBrains Mono |
 
 Details:
 
@@ -71,6 +72,17 @@ Details:
   94% in italics. ą gets the same foot, and its ogonek moves up to 10 units
   sideways so that it still hangs from the stem's outer corner. Accented and
   Cyrillic forms (à á â ã ä å ā ă ǻ ḁ ạ ả ấ ầ ẩ ẫ ậ ắ ằ ẳ ẵ ặ, а ӑ ӓ) follow.
+- **Percent.** Roboto's slash covers only the middle three-quarters of the
+  cap height, and its ends are cut square to the stroke. The slash now runs
+  from the baseline at the left edge of the upper ring to the cap height at
+  the right edge of the lower ring, with flat ends like `/`, as in
+  JetBrains Mono. It leans at about 55 degrees instead of 61, also as in
+  JetBrains Mono, and keeps its thickness. So it sits 5% to 35% farther
+  from the rings than before. The rings are unchanged. Italics slant the
+  upright design, as JetBrains Mono does. Their slash ends reach 66 to 116
+  units past the cell, closer to neighboring glyphs than upstream but
+  within the spacing of Roboto's own tightest italic pairs. `‰` keeps
+  Roboto's design.
 
 Italics get the same changes, slanted to Roboto Mono Italic's 10-degree angle.
 
