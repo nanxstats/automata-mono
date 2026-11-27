@@ -25,6 +25,7 @@ glyphs. Everything else is Roboto Mono, unchanged.
 | `0` | Slashed, like `Ø` | Round dot in the middle of the counter, as in JetBrains Mono, IBM Plex Mono, and Source Code Pro |
 | `1` | Flag and a bare stem | `l`'s foot bar on the baseline, under Roboto's flag, as in JetBrains Mono and IBM Plex Mono |
 | `6` `9` | Curved stroke ending in an upright cut | Straight stroke tangent to the counter, cut flat at the figure height and on the baseline, as in JetBrains Mono |
+| `f` `g` `j` `t` | Hooks curl on past the ascender, baseline, or descender into a cut square to the stroke | Hooks run flat along the line into an upright cut, as in JetBrains Mono, Geist Mono, and DM Mono |
 
 Details:
 
@@ -222,6 +223,24 @@ Details:
     both sides.
 
   9 is built like 6 turned half a turn, from its own bowl.
+- **Hooks of f, g, j, and t.** Roboto's hooks curl on past the line they
+  reach and end in a cut square to the stroke, so they read as curly next
+  to the straight tail of y. They now run flat along the line into an
+  upright cut, as in JetBrains Mono (all four), Geist Mono (f, j, t), and
+  DM Mono (j, t).
+  - **Line.** Upstream, the hooks overshoot their line as round letters
+    do: f's rises 21 (Thin) to 46 (Bold Italic) units above the top of
+    `l`, t's dips 19 to 21 below the baseline, and j's 21 to 23 and g's 10
+    to 20 below the bottom of `p`. Those fonts sit flat hooks on the line,
+    so each hook moves along its stem by its overshoot. The curve out of
+    the stem keeps its shape up to where it runs level, and the stroke
+    keeps its thickness there: 157 units in Regular, 151 for g.
+  - **Cut.** Each hook ends where upstream's reaches furthest, so the
+    spacing is unchanged and r's arm still ends level with f's hook. Those
+    fonts end f's and t's hooks level with their crossbars, within 0.02 of
+    the cell; Roboto's reach 78 and 41 units past them in Regular.
+
+  ŧ, ť, ţ, ț, ğ, ĝ, ģ, ġ, ĳ, ȷ, ĵ, ǰ, and Cyrillic ј follow.
 
 Italics get the same changes, slanted to Roboto Mono Italic's 10-degree angle.
 

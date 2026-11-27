@@ -16,6 +16,7 @@ class Style:
     slant: float  # horizontal shift per unit of height; 0 for upright styles
     x_height: float  # top of x
     cap_height: float  # top of H
+    ascender: float  # flat top of l, the height of straight ascenders
     descender: float  # flat bottom of p, the depth of straight descenders
 
     @classmethod
@@ -29,6 +30,7 @@ class Style:
             slant=math.tan(math.radians(-font.italicangle)),
             x_height=font["x"].boundingBox()[3],
             cap_height=font["H"].boundingBox()[3],
+            ascender=font["l"].boundingBox()[3],
             descender=font["p"].boundingBox()[1],
         )
 
