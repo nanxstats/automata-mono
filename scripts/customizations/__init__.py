@@ -10,6 +10,7 @@ from .base import Customization, CustomizationError, Style, apply_customizations
 from .brackets import LongerBrackets
 from .comma import StraightComma
 from .currency_bars import FullCurrencyBars
+from .g_spur import SpurG
 from .percent import FullPercentSlash
 from .r_serifs import SlabR
 from .t_top import TallerT
@@ -26,6 +27,7 @@ CUSTOMIZATIONS = (
     FullPercentSlash(),
     SlabR(),
     FullCurrencyBars(),
+    SpurG(),
 )
 
 __all__ = [

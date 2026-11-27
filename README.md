@@ -20,6 +20,7 @@ glyphs. Everything else is Roboto Mono, unchanged.
 | `%` | Short slash across the middle of the glyph, ends cut square to the stroke | Slash runs from the baseline to the cap height across the rings, cut flat like `/`, as in JetBrains Mono |
 | `r` | Bare stem; arm stops short of `f`'s hook | Flag at the x-height and foot bar on the baseline, drawn like Roboto's own `i`, and an arm as long as `f`'s hook, as in [IBM Plex Mono](https://github.com/IBM/plex), DM Mono, and [Geist Mono](https://github.com/vercel/geist-font) |
 | `$` `¢` | Bar ends stick out above and below the outline | Bar runs through the glyph from top to bottom, as in JetBrains Mono, IBM Plex Mono, and DM Mono |
+| `G` | Bowl sweeps into a stem that stops above the baseline, as in Source Code Pro | Stem runs straight down to a flat foot, with a spur where the bowl joins it like `d`'s, as in IBM Plex Mono, DM Mono, and Geist Mono |
 
 Details:
 
@@ -120,6 +121,27 @@ Details:
     of their stems. Roboto's `¢` ends are as wide as the stroke of c, which
     would clog the counter, so `¢` takes `$`'s bar width: 149 units instead
     of 185 in Regular, and 160 instead of 200 in Bold.
+- **G.** Roboto's bowl sweeps out to the stem's outer edge, and the stem
+  stops above the baseline, as in Source Code Pro, so G has no spur. The
+  stem now runs straight down to the baseline and is cut flat, as in IBM
+  Plex Mono, DM Mono, and Geist Mono. Those fonts join the bowl to the stem
+  as in their own `d`, scaled up: G's crotch sits 0.13 to 0.30 of the cap
+  height up, 0.8 to 1.1 times the fraction of the x-height at which `d`'s
+  sits. G now takes Roboto's own `d` join the same way, with its heights
+  scaled by the cap height over the x-height and its width fitted between
+  the bottom of the bowl and the stem:
+  - **Crotch.** The bowl's outer edge meets the stem 0.105 of the cap
+    height up in Regular through Bold (152 to 153 units), 0.128 in Light,
+    and 0.150 in Thin, the fractions of the x-height at which `d`'s does.
+  - **Counter.** It curves up into the stem at 343 (Thin) to 433 (Bold)
+    units instead of 181 to 270, so the bowl keeps its stroke into the
+    stem. In Bold, it rounds up almost to the bar, as in IBM Plex Mono.
+  - **Stem.** Both edges continue upstream's lines to the baseline. The
+    bar, the top of the bowl, and the terminal are unchanged.
+
+  At 11 to 14 px, the stem reaches the baseline as a square corner that C
+  and 6 lack. Ğ, Ĝ, Ģ, Ġ, and the small capital G (`smcp`) follow; small
+  caps scale the join by the small-cap height instead.
 
 Italics get the same changes, slanted to Roboto Mono Italic's 10-degree angle.
 
