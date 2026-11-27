@@ -12,7 +12,7 @@ glyphs. Everything else is Roboto Mono, unchanged.
 | Glyph | Roboto Mono | Automata Mono |
 | --- | --- | --- |
 | `,` `;` | Flat head with a curved hook | Straight, slightly tapered tail in the style of [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) |
-| `i` `j` | Dot gap shrinks from 0.116 em (Thin) to 0.063 em (Bold) | Dot gap is 0.11 em in every weight |
+| `i` `j` | Small dots; gap shrinks from 0.116 em (Thin) to 0.063 em (Bold) | Dots 15% larger, 0.11 em above the stem in every weight, slightly left of center |
 | `y` | Hooked tail | Straight tail cut flat at the descender, as in JetBrains Mono and [DM Mono](https://github.com/googlefonts/dm-mono) |
 | `t` | Stem rises 70% of the way from x-height to cap height (78% in Thin) | Stem rises 86% of the way in every weight, as in JetBrains Mono |
 
@@ -29,9 +29,19 @@ Details:
   and grows them downward, so heavier weights crowd the stem. At small sizes,
   the dot blurs into the stem. Automata Mono places every dot 225 units
   (0.11 em) above the stem, between JetBrains Mono (about 0.10 em) and Fira
-  Code (about 0.13 em). Heavier dots grow upward, like theirs. The dot size is
-  unchanged, because it matches the dieresis and dot accent and a bigger dot
-  would eat into the gap. This also applies to į, ĳ, ị, and Cyrillic і ј.
+  Code (about 0.13 em). Heavier dots grow upward, like theirs.
+  - **Size.** Roboto's dots are also small for their stems. Dot width over
+    stem width in Regular is 1.20, against 1.57 to 1.67 in JetBrains Mono,
+    IBM Plex Mono, DM Mono, and Source Code Pro. Dots are scaled up 15% from
+    the bottom, keeping the gap. That gives 1.38 in Regular and puts Light
+    and Bold in the range of those fonts. A larger scale would overshoot in
+    Light and Bold. The dieresis and dot accent keep their size.
+  - **Position.** JetBrains Mono, DM Mono, and Source Code Pro place their
+    dots about 0.009 em left of the stem center. That offsets the top serif
+    of i and the hook of j, which pull the letter's mass left. Roboto
+    centers its dots within 0.004 em; Automata Mono uses 0.009 em (18 units).
+
+  This also applies to į, ĳ, ị, and Cyrillic і ј.
 - **y.** The right stroke continues straight to the descender of p and q, at
   the width it has at the x-height. The arms are unchanged. Accented and
   Cyrillic forms (ý ŷ ÿ ỳ ỵ ỷ ỹ, у ў ӯ ӱ ӳ) follow.
