@@ -3,8 +3,6 @@
 SHELL := /bin/bash
 .DEFAULT_GOAL := all
 .DELETE_ON_ERROR:
-# Keep intermediate fonts in build/ for inspection.
-.SECONDARY:
 
 FONTFORGE ?= fontforge
 TTFAUTOHINT ?= ttfautohint
@@ -34,6 +32,7 @@ LIGATURIZER_SCRIPTS := $(addprefix $(LIGATURIZER_DIR)/,ligaturize.py ligatures.p
 BUILD_SCRIPTS := scripts/build_font.py scripts/config.py scripts/fira_ligatures.py \
 	$(wildcard scripts/customizations/*.py)
 FINAL_FONTS := $(STYLES:%=$(OUTPUT_DIR)/AutomataMono-%.ttf)
+FONTFORGE_FONTS := $(STYLES:%=$(BUILD_DIR)/AutomataMono-%.fontforge.ttf)
 MANIFESTS := $(STYLES:%=$(BUILD_DIR)/AutomataMono-%.json)
 LICENSES := $(OUTPUT_DIR)/OFL-Roboto-Mono.txt $(OUTPUT_DIR)/OFL-Fira-Code.txt
 
@@ -105,6 +104,12 @@ $(FIRA_FONTS) $(LIGATURIZER_SCRIPTS) $(FIRA_DIR)/LICENSE: | $(LIGATURIZER_DIR)/.
 
 $(OUTPUT_DIR):
 	mkdir -p "$@"
+
+# Keep intermediate FontForge outputs in build/ for inspection. Listing them
+# explicitly avoids .SECONDARY, which loops infinitely in GNU Make 3.81 under
+# -j when an existing target depends on a missing secondary prerequisite whose
+# own prerequisite is still running.
+$(FONTFORGE_FONTS) $(MANIFESTS):
 
 # 1. FontForge: glyph customizations and ligatures, plus a manifest of changes.
 $(BUILD_DIR)/AutomataMono-%.fontforge.ttf $(BUILD_DIR)/AutomataMono-%.json: \
